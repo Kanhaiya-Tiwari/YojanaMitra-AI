@@ -1,20 +1,10 @@
 'use client';
 
-import { useState, useRef, useEffect, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
-import {
-  Bot,
-  User,
-  Send,
-  Mic,
-  MicOff,
-  RotateCcw,
-  Copy,
-  ThumbsUp,
-  ThumbsDown,
-  Sparkles,
-} from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import { Send, Mic, MicOff, Bot, User, Copy, ThumbsUp, ThumbsDown, Sparkles, Search, Filter, Download, Share2, Star, TrendingUp, Award, Shield, Heart, Zap, Globe, BookOpen, Users, Target, Lightbulb, ChevronRight, Menu, X, Home, RotateCcw } from 'lucide-react';
 import { useTheme } from '@/components/ThemeProvider';
+import { useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 
 interface Message {
   id: string;
@@ -37,12 +27,12 @@ interface SchemeCard {
 }
 
 const SUGGESTED_PROMPTS = [
-  { en: 'Scholarships for engineering students', hi: 'इंजीनियरिंग छात्रों के लिए छात्रवृत्ति' },
-  { en: 'Schemes for farmers in UP', hi: 'उत्तर प्रदेश के किसानों के लिए योजनाएं' },
-  { en: 'Startup loans for small businesses', hi: 'छोटे व्यवसाय के लिए स्टार्टअप लोन' },
-  { en: 'Health insurance for poor families', hi: 'गरीब परिवारों के लिए स्वास्थ्य बीमा' },
-  { en: 'Housing schemes for rural areas', hi: 'ग्रामीण क्षेत्रों के लिए आवास योजनाएं' },
-  { en: 'Women empowerment schemes', hi: 'महिला सशक्तिकरण योजनाएं' },
+  { en: 'Scholarships for engineering students', hi: 'इंजीनियरिंग छात्रों के लिए छात्रवृत्ति', icon: BookOpen },
+  { en: 'Schemes for farmers in UP', hi: 'उत्तर प्रदेश के किसानों के लिए योजनाएं', icon: Target },
+  { en: 'Startup loans for small businesses', hi: 'छोटे व्यवसाय के लिए स्टार्टअप लोन', icon: TrendingUp },
+  { en: 'Health insurance for poor families', hi: 'गरीब परिवारों के लिए स्वास्थ्य बीमा', icon: Shield },
+  { en: 'Housing schemes for rural areas', hi: 'ग्रामीण क्षेत्रों के लिए आवास योजनाएं', icon: Home },
+  { en: 'Women empowerment schemes', hi: 'महिला सशक्तिकरण योजनाएं', icon: Award },
 ];
 
 function SchemeCard({ scheme, lang }: { scheme: SchemeCard; lang: boolean }) {

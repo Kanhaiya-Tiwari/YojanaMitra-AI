@@ -1,0 +1,175 @@
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: yojanamitra
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  scheme-service:
+    build:
+      context: .
+      dockerfile: devops/dockerfiles/scheme-service.Dockerfile
+    env_file: .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "8002:8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/healthz"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    volumes:
+      - ./services/scheme-service:/app/services/scheme-service
+      - ./services/_shared:/app/services/_shared
+
+  user-service:
+    build:
+      context: .
+      dockerfile: devops/dockerfiles/user-service.Dockerfile
+    env_file: .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "8003:8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/healthz"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    volumes:
+      - ./services/user-service:/app/services/user-service
+      - ./services/_shared:/app/services/_shared
+
+  eligibility-service:
+    build:
+      context: .
+      dockerfile: devops/dockerfiles/eligibility-service.Dockerfile
+    env_file: .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+      scheme-service:
+        condition: service_healthy
+    ports:
+      - "8004:8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/healthz"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    volumes:
+      - ./services/eligibility-service:/app/services/eligibility-service
+      - ./services/_shared:/app/services/_shared
+
+  chatbot-service:
+    build:
+      context: .
+      dockerfile: devops/dockerfiles/chatbot-service.Dockerfile
+    env_file: .env
+    depends_on:
+      eligibility-service:
+        condition: service_healthy
+    ports:
+      - "8005:8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/healthz"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    volumes:
+      - ./services/chatbot-service:/app/services/chatbot-service
+      - ./services/_shared:/app/services/_shared
+
+  notification-service:
+    build:
+      context: .
+      dockerfile: devops/dockerfiles/notification-service.Dockerfile
+    env_file: .env
+    depends_on:
+      chatbot-service:
+        condition: service_healthy
+    ports:
+      - "8006:8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/healthz"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    volumes:
+      - ./services/notification-service:/app/services/notification-service
+      - ./services/_shared:/app/services/_shared
+
+  api-gateway:
+    build:
+      context: .
+      dockerfile: devops/dockerfiles/api-gateway.Dockerfile
+    env_file: .env
+    depends_on:
+      user-service:
+        condition: service_healthy
+      scheme-service:
+        condition: service_healthy
+      eligibility-service:
+        condition: service_healthy
+      chatbot-service:
+        condition: service_healthy
+      notification-service:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/healthz"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    volumes:
+      - ./backend/api-gateway:/app/backend/api-gateway
+      - ./services/_shared:/app/services/_shared
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: ../devops/dockerfiles/frontend.Dockerfile
+    env_file: .env
+    depends_on:
+      api-gateway:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/public:/app/public
+      - ./frontend/package.json:/app/package.json
+      - ./frontend/next.config.mjs:/app/next.config.mjs
+
+volumes:
+  pgdata:
+
+networks:
+  default:
+    name: yojanamitra-network

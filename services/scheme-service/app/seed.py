@@ -10,7 +10,8 @@ from .models import Scheme
 
 def seed_from_file(session: Session, path: Path) -> dict:
     raw = json.loads(path.read_text(encoding="utf-8"))
-    items = raw.get("schemes", [])
+    # Handle both old format (schemes array) and new format (direct array)
+    items = raw.get("schemes", raw) if isinstance(raw, dict) else raw
     created = 0
     updated = 0
 

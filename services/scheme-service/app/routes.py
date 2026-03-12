@@ -99,7 +99,7 @@ def update_scheme(scheme_id: UUID, payload: SchemeUpdate, session: Session = Dep
 
 @router.post("/admin/seed", dependencies=[Depends(require_admin)])
 def seed_default(session: Session = Depends(get_session)) -> dict:
-    seed_path = Path(__file__).resolve().parent.parent / "data" / "schemes_seed.json"
+    seed_path = Path(__file__).resolve().parent.parent / "data" / "comprehensive_schemes.json"
     result = seed_from_file(session, seed_path)
     session.commit()
     return {"ok": True, **result}

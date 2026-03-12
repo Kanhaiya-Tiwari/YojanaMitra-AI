@@ -21,30 +21,102 @@ def _eligibility_service_url() -> str:
 
 
 def _render_reply(language: str, extracted: dict, schemes: list[SchemeCard]) -> str:
+    """Render a helpful reply with ChatGPT-style formatting and detailed information."""
     lang = (language or "en").lower()
-    if not schemes:
-        if lang.startswith("hi"):
-            return "मुझे अभी आपके लिए कोई पक्का मैच नहीं मिला। कृपया अपनी उम्र, आय, राज्य, और आप किसान/छात्र/व्यवसायी हैं या नहीं—यह जानकारी भेजें।"
-        return "I couldn’t find a strong match yet. Please share your age, income, state, and whether you are a farmer/student/business owner/job seeker."
-
-    top = schemes[:5]
-    if lang.startswith("hi"):
-        lines = ["आपके प्रोफाइल के आधार पर ये योजनाएँ उपयुक्त लगती हैं:"]
-        for sc in top:
-            lines.append(f"- {sc.name} — {sc.benefits or ''}".rstrip())
-        lines.append("अगर आप चाहें तो मैं दस्तावेज़ों की चेकलिस्ट और आवेदन के स्टेप्स भी बता दूँ।")
-        return "\n".join(lines)
-
-    lines = ["Based on your details, you may be eligible for:"]
-    for sc in top:
-        benefit = f" — {sc.benefits}" if sc.benefits else ""
-        lines.append(f"- {sc.name}{benefit}")
-    lines.append("Tell me if you want a document checklist and step-by-step application guide for any scheme.")
-    return "\n".join(lines)
+    is_hindi = lang.startswith("hi")
+    
+    # Personalized greeting based on extracted profile
+    greeting = ""
+    if extracted:
+        if extracted.get("state"):
+            greeting = f"नमस्ते! I see you're from {extracted['state']}. " if is_hindi else f"Hello! I see you're from {extracted['state']}. "
+        elif extracted.get("occupation"):
+            greeting = f"नमस्ते! As a {extracted['occupation']}, " if is_hindi else f"Hello! As a {extracted['occupation']}, "
+        else:
+            greeting = "नमस्ते! " if is_hindi else "Hello! "
+    else:
+        greeting = "नमस्ते! " if is_hindi else "Hello! "
+    
+    if schemes:
+        # Create engaging introduction
+        if is_hindi:
+            intro = f"{greeting}आपके लिए **{len(schemes)} महत्वपूर्ण सरकारी योजनाएं** मिली हैं जिनका लाभ आप उठा सकते हैं! 🇮🇳\n\n"
+        else:
+            intro = f"{greeting}I found **{len(schemes)} amazing government schemes** that you're eligible for! 🇮🇳\n\n"
+        
+        # Format each scheme with rich details
+        scheme_details = []
+        for idx, scheme in enumerate(schemes, 1):
+            scheme_name = scheme.name
+            benefits = scheme.benefits or "Excellent benefits available"
+            
+            if is_hindi:
+                detail = f"### 🎯 {idx}. {scheme_name}\n\n"
+                detail += f"**💰 लाभ:** {benefits}\n\n"
+                if scheme.application_link:
+                    detail += f"**🌐 ऑनलाइन आवेदन:** [यहां क्लिक करें]({scheme.application_link})\n\n"
+                if scheme.offline_office:
+                    detail += f"**🏢 ऑफलाइन:** {scheme.offline_office}\n\n"
+                detail += f"**📋 आवश्यक दस्तावेज:** {', '.join(scheme.required_documents or ['Aadhaar', 'Bank Details'])}\n\n"
+                detail += "---\n\n"
+            else:
+                detail = f"### 🎯 {idx}. {scheme_name}\n\n"
+                detail += f"**💰 Benefits:** {benefits}\n\n"
+                if scheme.application_link:
+                    detail += f"**🌐 Apply Online:** [Click Here]({scheme.application_link})\n\n"
+                if scheme.offline_office:
+                    detail += f"**🏢 Offline Office:** {scheme.offline_office}\n\n"
+                detail += f"**📋 Required Documents:** {', '.join(scheme.required_documents or ['Aadhaar', 'Bank Details'])}\n\n"
+                detail += "---\n\n"
+            
+            scheme_details.append(detail)
+        
+        # Add helpful conclusion
+        if is_hindi:
+            conclusion = (
+                "### 📝 आगे क्या करें?\n\n"
+                "1. **जल्दी करें:** कई योजनाओं की समय सीमा सीमित है\n"
+                "2. **दस्तावेज तैयार रखें:** सभी आवश्यक कागजात पहले से तैयार करें\n"
+                "3. **सहायता लें:** CSC केंद्र या संबंधित कार्यालय से मदद ले सकते हैं\n\n"
+                "क्या आप किसी विशेष योजना के बारे में और जानना चाहते हैं? मैं विस्तृत जानकारी दे सकता हूं! 😊"
+            )
+        else:
+            conclusion = (
+                "### 📝 What's Next?\n\n"
+                "1. **Act Fast:** Many schemes have limited time windows\n"
+                "2. **Prepare Documents:** Keep all required documents ready\n"
+                "3. **Get Help:** Visit CSC centers or concerned offices for assistance\n\n"
+                "Would you like detailed information about any specific scheme? I can provide step-by-step guidance! 😊"
+            )
+        
+        return intro + "".join(scheme_details) + conclusion
+    
+    else:
+        # No schemes found - provide helpful guidance
+        if is_hindi:
+            return (
+                f"{greeting}"
+                "मैंने आपकी जानकारी के आधार पर योजनाएं खोजने का प्रयास किया, लेकिन अभी कोई मेल खाने वाली योजना नहीं मिली। 😔\n\n"
+                "### 💡 सुझाव:\n"
+                "• अपने बारे में अधिक जानकारी दें - उम्र, आय, राज्य, व्यवसाय\n"
+                "• कुछ योजनाओं के लिए विशिष्ट पात्रता मानदंड होते हैं\n"
+                "• मैं आपकी प्रोफाइल के अनुसार सबसे उपयुक्त योजनाएं ढूंढ सकता हूं\n\n"
+                "कृपया अपनी जानकारी विस्तार से बताएं ताकि मैं आपकी सहायता बेहतर ढंग से कर सकूं! 🌟"
+            )
+        else:
+            return (
+                f"{greeting}"
+                "I searched for schemes based on your information, but didn't find any exact matches at the moment. 😔\n\n"
+                "### 💡 Suggestions:\n"
+                "• Provide more details about yourself - age, income, state, occupation\n"
+                "• Some schemes have very specific eligibility criteria\n"
+                "• I can find the most suitable schemes based on your complete profile\n\n"
+                "Please share more information about yourself so I can assist you better! 🌟"
+            )
 
 
 def create_app() -> FastAPI:
-    settings = ServiceSettings.from_env("chatbot-service")
+    settings = ServiceSettings.from_env("chatbot-ser-vice")
     app = FastAPI(title="Chatbot Service", version="0.1.0")
     app.add_middleware(
         CORSMiddleware,
