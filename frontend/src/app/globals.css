@@ -1,0 +1,189 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --saffron:  #FF9933;
+  --green:    #138808;
+  --navy:     #000080;
+}
+
+/* ====== Base ====== */
+@layer base {
+  html {
+    @apply scroll-smooth;
+    font-family: 'Inter', 'Noto Sans Devanagari', system-ui, -apple-system, sans-serif;
+  }
+
+  body {
+    @apply bg-orange-50 text-gray-900 dark:bg-gray-950 dark:text-gray-100;
+    font-family: 'Inter', 'Noto Sans Devanagari', system-ui, -apple-system, sans-serif;
+  }
+
+  * {
+    @apply border-gray-200 dark:border-gray-800;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold tracking-tight;
+  }
+}
+
+/* ====== Components ====== */
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 text-white font-semibold bg-orange-500 hover:bg-orange-600 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 active:scale-95 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 font-semibold bg-white hover:bg-orange-50 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-100 border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 active:scale-95 focus:outline-none focus:ring-2 focus:ring-orange-300 focus:ring-offset-2;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-orange-300;
+  }
+
+  .card {
+    @apply bg-white dark:bg-gray-900 rounded-2xl shadow-card border border-gray-100 dark:border-gray-800 p-6 transition-all duration-200;
+  }
+
+  .card-hover {
+    @apply card hover:shadow-card-hover hover:-translate-y-0.5 cursor-pointer;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 text-base bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent placeholder-gray-400 dark:placeholder-gray-600 transition-all duration-200;
+  }
+
+  .select-field {
+    @apply w-full px-4 py-3 text-base bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all duration-200 appearance-none cursor-pointer;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-semibold rounded-full;
+  }
+
+  .badge-saffron {
+    @apply badge bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-300;
+  }
+
+  .badge-green {
+    @apply badge bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300;
+  }
+
+  .badge-blue {
+    @apply badge bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300;
+  }
+
+  .section-title {
+    @apply text-2xl md:text-3xl font-bold text-gray-900 dark:text-white;
+  }
+
+  .section-subtitle {
+    @apply text-base text-gray-500 dark:text-gray-400 mt-2 leading-relaxed;
+  }
+
+  .nav-link {
+    @apply text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-orange-50 dark:hover:bg-orange-900/20;
+  }
+
+  .nav-link-active {
+    @apply nav-link text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-900/20;
+  }
+
+  .glass {
+    @apply bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border border-white/20 dark:border-gray-700/50;
+  }
+
+  .gradient-bg {
+    background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 30%, #fff0e6 60%, #f0fdf4 100%);
+  }
+
+  .dark .gradient-bg {
+    background: linear-gradient(135deg, #1a0a00 0%, #1c1007 30%, #0d1a0d 60%, #0a0d1a 100%);
+  }
+
+  .hero-gradient {
+    background: linear-gradient(135deg, #FF9933 0%, #ff7700 50%, #138808 100%);
+  }
+
+  .chat-bubble-user {
+    @apply bg-orange-500 text-white rounded-2xl rounded-tr-sm px-4 py-3 max-w-xs md:max-w-md lg:max-w-lg ml-auto shadow-sm;
+  }
+
+  .chat-bubble-ai {
+    @apply bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 rounded-2xl rounded-tl-sm px-4 py-3 max-w-xs md:max-w-md lg:max-w-lg shadow-sm border border-gray-100 dark:border-gray-700;
+  }
+}
+
+/* ====== Utilities ====== */
+@layer utilities {
+  .text-gradient {
+    @apply bg-gradient-to-r from-orange-500 via-orange-400 to-yellow-400 bg-clip-text text-transparent;
+  }
+
+  .text-gradient-india {
+    background: linear-gradient(90deg, #FF9933, #138808);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: #FF9933 transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: #FF9933;
+    border-radius: 100px;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .animate-typing {
+    animation: typing 1.5s steps(3, end) infinite;
+  }
+}
+
+/* ====== Chat Typing Indicator ====== */
+@keyframes typing {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+.typing-dot:nth-child(1) { animation-delay: 0s; }
+.typing-dot:nth-child(2) { animation-delay: 0.25s; }
+.typing-dot:nth-child(3) { animation-delay: 0.5s; }
+
+/* ====== Tricolor Stripe ====== */
+.tricolor-bar {
+  height: 4px;
+  background: linear-gradient(90deg, #FF9933 33.3%, #FFFFFF 33.3% 66.6%, #138808 66.6%);
+}
+
+/* ====== Scheme card progress bar ====== */
+.progress-bar {
+  @apply h-1.5 rounded-full bg-gray-100 dark:bg-gray-700 overflow-hidden;
+}
+
+.progress-fill {
+  @apply h-full rounded-full transition-all duration-700;
+}

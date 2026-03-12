@@ -1,0 +1,85 @@
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: yojanamitra
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+
+  scheme-service:
+    build:
+      context: .
+      dockerfile: devops/dockerfiles/scheme-service.Dockerfile
+    env_file: .env
+    depends_on:
+      - postgres
+    ports:
+      - "8002:8000"
+
+  user-service:
+    build:
+      context: .
+      dockerfile: devops/dockerfiles/user-service.Dockerfile
+    env_file: .env
+    depends_on:
+      - postgres
+    ports:
+      - "8003:8000"
+
+  eligibility-service:
+    build:
+      context: .
+      dockerfile: devops/dockerfiles/eligibility-service.Dockerfile
+    env_file: .env
+    depends_on:
+      - postgres
+      - scheme-service
+    ports:
+      - "8004:8000"
+
+  chatbot-service:
+    build:
+      context: .
+      dockerfile: devops/dockerfiles/chatbot-service.Dockerfile
+    env_file: .env
+    depends_on:
+      - eligibility-service
+    ports:
+      - "8005:8000"
+
+  notification-service:
+    build:
+      context: .
+      dockerfile: devops/dockerfiles/notification-service.Dockerfile
+    env_file: .env
+    depends_on:
+      - chatbot-service
+    ports:
+      - "8006:8000"
+
+  api-gateway:
+    build:
+      context: .
+      dockerfile: devops/dockerfiles/api-gateway.Dockerfile
+    env_file: .env
+    depends_on:
+      - user-service
+      - scheme-service
+      - eligibility-service
+      - chatbot-service
+      - notification-service
+    ports:
+      - "8000:8000"
+
+volumes:
+  pgdata:
+

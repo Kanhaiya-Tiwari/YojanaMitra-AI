@@ -1,0 +1,193 @@
+{
+  "schemes": [
+    {
+      "name": "PM-KISAN (Pradhan Mantri Kisan Samman Nidhi)",
+      "ministry": "Ministry of Agriculture & Farmers Welfare",
+      "description": "Income support to eligible farmer families with cultivable land.",
+      "target_group": "Farmers",
+      "income_limit": 200000,
+      "age_min": null,
+      "age_max": null,
+      "state_availability": null,
+      "required_documents": ["Aadhaar", "Land records", "Bank account details"],
+      "application_link": "https://pmkisan.gov.in/",
+      "offline_office": "Nearest Agriculture Department office / Common Service Center (CSC)",
+      "application_steps": [
+        "Verify Aadhaar and bank details",
+        "Get land records and ensure ownership is updated",
+        "Apply online on the portal or visit CSC",
+        "Track status using registration details"
+      ],
+      "last_date": null,
+      "benefits": "₹6,000/year in 3 installments",
+      "eligibility_rules": {
+        "all": [
+          {"field": "occupation", "op": "eq", "value": "farmer"},
+          {"field": "land_ownership", "op": "truthy"}
+        ]
+      }
+    },
+    {
+      "name": "PMAY-G (Pradhan Mantri Awas Yojana - Gramin)",
+      "ministry": "Ministry of Rural Development",
+      "description": "Housing for rural poor households.",
+      "target_group": "Rural citizens",
+      "income_limit": null,
+      "age_min": null,
+      "age_max": null,
+      "state_availability": null,
+      "required_documents": ["Aadhaar", "Income certificate", "Bank passbook"],
+      "application_link": "https://pmayg.nic.in/",
+      "offline_office": "Gram Panchayat / Block Development Office (BDO)",
+      "application_steps": [
+        "Get household details verified by local body",
+        "Submit documents at Panchayat/BDO or as instructed",
+        "Complete verification and beneficiary selection process",
+        "Follow sanctioned construction milestones"
+      ],
+      "last_date": null,
+      "benefits": "Financial assistance for house construction",
+      "eligibility_rules": {
+        "all": [
+          {"field": "location.rural", "op": "truthy"}
+        ]
+      }
+    },
+    {
+      "name": "PMEGP (Prime Minister's Employment Generation Programme)",
+      "ministry": "Ministry of Micro, Small and Medium Enterprises",
+      "description": "Credit-linked subsidy programme for setting up micro-enterprises.",
+      "target_group": "Small business owners",
+      "income_limit": null,
+      "age_min": 18,
+      "age_max": null,
+      "state_availability": null,
+      "required_documents": ["Aadhaar", "Project report", "Bank passbook", "Category certificate (if any)"],
+      "application_link": "https://www.kviconline.gov.in/pmegpeportal/",
+      "offline_office": "District Industries Centre (DIC) / KVIC / KVIB office",
+      "application_steps": [
+        "Prepare a basic project report",
+        "Apply online on PMEGP portal",
+        "Complete bank appraisal and margin money subsidy process",
+        "Start enterprise and comply with documentation"
+      ],
+      "last_date": null,
+      "benefits": "Subsidy on project cost (varies by category/location)",
+      "eligibility_rules": {
+        "all": [
+          {"field": "is_business_owner", "op": "truthy"},
+          {"field": "age", "op": "gte", "value": 18}
+        ]
+      }
+    },
+    {
+      "name": "National Scholarship Portal (NSP) - Scholarships",
+      "ministry": "Ministry of Education",
+      "description": "Centralized portal for various scholarship schemes.",
+      "target_group": "Students",
+      "income_limit": 300000,
+      "age_min": null,
+      "age_max": null,
+      "state_availability": null,
+      "required_documents": ["Aadhaar", "Income certificate", "Marksheet", "Bank passbook"],
+      "application_link": "https://scholarships.gov.in/",
+      "offline_office": "Institute scholarship cell / District education office (varies by scheme)",
+      "application_steps": [
+        "Register on NSP and complete profile",
+        "Select the relevant scholarship scheme",
+        "Upload documents and submit application",
+        "Track status and respond to verification requests"
+      ],
+      "last_date": null,
+      "benefits": "Scholarship amount varies by scheme",
+      "eligibility_rules": {
+        "all": [
+          {"field": "is_student", "op": "truthy"},
+          {"field": "income", "op": "lt", "value": 300000}
+        ]
+      }
+    },
+    {
+      "name": "PMJJBY (Pradhan Mantri Jeevan Jyoti Bima Yojana)",
+      "ministry": "Ministry of Finance",
+      "description": "Life insurance scheme at low premium for eligible age group.",
+      "target_group": "All citizens",
+      "income_limit": null,
+      "age_min": 18,
+      "age_max": 50,
+      "state_availability": null,
+      "required_documents": ["Aadhaar", "Bank account details"],
+      "application_link": "https://jansuraksha.gov.in/",
+      "offline_office": "Your bank branch",
+      "application_steps": [
+        "Visit bank branch or use netbanking (if available)",
+        "Provide Aadhaar and account details",
+        "Enroll and ensure auto-debit is enabled",
+        "Keep nomination details updated"
+      ],
+      "last_date": null,
+      "benefits": "Life cover of ₹2 lakh (subject to scheme terms)",
+      "eligibility_rules": {
+        "all": [
+          {"field": "age", "op": "gte", "value": 18},
+          {"field": "age", "op": "lte", "value": 50}
+        ]
+      }
+    },
+    {
+      "name": "PMBY (Pradhan Mantri Suraksha Bima Yojana)",
+      "ministry": "Ministry of Finance",
+      "description": "Accident insurance scheme at low premium.",
+      "target_group": "All citizens",
+      "income_limit": null,
+      "age_min": 18,
+      "age_max": 70,
+      "state_availability": null,
+      "required_documents": ["Aadhaar", "Bank account details"],
+      "application_link": "https://jansuraksha.gov.in/",
+      "offline_office": "Your bank branch",
+      "application_steps": [
+        "Visit bank branch or use netbanking (if available)",
+        "Provide Aadhaar and account details",
+        "Enroll and ensure auto-debit is enabled",
+        "Keep nomination details updated"
+      ],
+      "last_date": null,
+      "benefits": "Accident cover (subject to scheme terms)",
+      "eligibility_rules": {
+        "all": [
+          {"field": "age", "op": "gte", "value": 18},
+          {"field": "age", "op": "lte", "value": 70}
+        ]
+      }
+    },
+    {
+      "name": "MGNREGA (Mahatma Gandhi National Rural Employment Guarantee Act)",
+      "ministry": "Ministry of Rural Development",
+      "description": "Guarantees wage employment for rural households willing to do unskilled manual work.",
+      "target_group": "Rural citizens / Job seekers",
+      "income_limit": null,
+      "age_min": 18,
+      "age_max": null,
+      "state_availability": null,
+      "required_documents": ["Aadhaar", "Job card (if existing)", "Bank account details"],
+      "application_link": "https://nrega.nic.in/",
+      "offline_office": "Gram Panchayat office",
+      "application_steps": [
+        "Apply for Job Card at Gram Panchayat",
+        "Submit Aadhaar and bank details",
+        "Request work and get work allocation",
+        "Track muster roll and payments"
+      ],
+      "last_date": null,
+      "benefits": "Wage employment up to 100 days (subject to policy)",
+      "eligibility_rules": {
+        "all": [
+          {"field": "is_job_seeker", "op": "truthy"},
+          {"field": "location.rural", "op": "truthy"},
+          {"field": "age", "op": "gte", "value": 18}
+        ]
+      }
+    }
+  ]
+}
