@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
     CheckCircle2,
@@ -16,7 +16,8 @@ import {
 } from 'lucide-react';
 import { useTheme } from '@/components/ThemeProvider';
 import SchemeCard from '@/components/SchemeCard';
-import { SCHEMES, INDIAN_STATES } from '@/lib/schemes-data';
+import { INDIAN_STATES } from '@/lib/schemes-data';
+import { listSchemes } from '@/lib/api';
 
 const STEPS = [
     { id: 'personal', icon: User, labelEn: 'Personal Info', labelHi: 'व्यक्तिगत जानकारी' },
@@ -54,30 +55,117 @@ export default function EligibilityPage() {
     const hi = lang === 'hi';
     const [step, setStep] = useState(0);
     const [form, setForm] = useState<FormData>(INITIAL);
-    const [results, setResults] = useState<typeof SCHEMES | null>(null);
+    const [results, setResults] = useState<any[]>([]);
+    const [hasCalculated, setHasCalculated] = useState(false);
 
     const update = (field: keyof FormData, value: string | boolean) => {
         setForm(prev => ({ ...prev, [field]: value }));
     };
 
+    const [schemes, setSchemes] = useState<any[]>([]);
+    const [loading, setLoading] = useState(false);
+
+    // Load schemes from API on component mount
+    useEffect(() => {
+        const loadSchemes = async () => {
+            setLoading(true);
+            try {
+                const data = await listSchemes();
+                setSchemes(data);
+            } catch (error) {
+                console.error('Error loading schemes:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        loadSchemes();
+    }, []);
+
     const computeResults = () => {
         const income = parseFloat(form.annualIncome) || 0;
-        return SCHEMES.filter(s => {
-            if (form.isFarmer && s.category === 'farmer') return true;
-            if (form.isStudent && s.category === 'student') return true;
-            if (form.isBusinessOwner && s.category === 'startup') return true;
-            if (s.category === 'health' && income < 300000) return true;
-            if (s.category === 'housing' && income < 600000) return true;
-            if (form.gender === 'female' && s.category === 'women') return true;
-            return s.state === 'All India' && income < 500000;
+        return schemes.filter(s => {
+            // Check if user matches the scheme's target group
+            let matchesTargetGroup = false;
+            const targetGroup = (s.target_group || '').toLowerCase();
+            
+            // Farmer matching
+            if (form.isFarmer && (
+                targetGroup.includes('farmer') || 
+                targetGroup.includes('agricultural') ||
+                targetGroup.includes('cultivator') ||
+                targetGroup.includes('livestock') ||
+                targetGroup.includes('horticulture') ||
+                targetGroup.includes('dairy') ||
+                targetGroup.includes('fishery')
+            )) {
+                matchesTargetGroup = true;
+            }
+            // Student matching
+            else if (form.isStudent && (
+                targetGroup.includes('student') || 
+                targetGroup.includes('education') ||
+                targetGroup.includes('college') ||
+                targetGroup.includes('university') ||
+                targetGroup.includes('scholarship')
+            )) {
+                matchesTargetGroup = true;
+            }
+            // Business owner matching
+            else if (form.isBusinessOwner && (
+                targetGroup.includes('business') || 
+                targetGroup.includes('entrepreneur') ||
+                targetGroup.includes('startup') ||
+                targetGroup.includes('manufacturer') ||
+                targetGroup.includes('trader')
+            )) {
+                matchesTargetGroup = true;
+            }
+            // Women matching
+            else if (form.gender === 'female' && (
+                targetGroup.includes('women') || 
+                targetGroup.includes('girl') ||
+                targetGroup.includes('female')
+            )) {
+                matchesTargetGroup = true;
+            }
+            // Health-related schemes (income-based)
+            else if (targetGroup.includes('health') && income < 300000) {
+                matchesTargetGroup = true;
+            }
+            // Housing-related schemes (income-based)
+            else if (targetGroup.includes('housing') && income < 600000) {
+                matchesTargetGroup = true;
+            }
+            // General schemes that apply to everyone
+            else if (
+                targetGroup.includes('all citizens') ||
+                targetGroup.includes('general') ||
+                targetGroup.includes('rural households') ||
+                targetGroup.includes('urban citizens') ||
+                targetGroup.includes('poor') ||
+                targetGroup.includes('youth') ||
+                targetGroup.includes('job seekers')
+            ) {
+                matchesTargetGroup = true;
+            }
+            
+            // Check if scheme is available in user's state
+            const matchesState = !s.state_availability || 
+                                s.state_availability.length === 0 || 
+                                s.state_availability.includes('All India') ||
+                                s.state_availability.includes(form.state);
+            
+            return matchesTargetGroup && matchesState;
         });
     };
 
     const submit = () => {
-        setResults(computeResults());
+        const calculatedResults = computeResults();
+        setResults(calculatedResults);
+        setHasCalculated(true);
     };
 
-    if (results !== null) {
+    if (hasCalculated) {
         return (
             <div className="min-h-screen bg-orange-50 dark:bg-gray-950 py-8 px-4">
                 <div className="max-w-4xl mx-auto">
@@ -108,7 +196,7 @@ export default function EligibilityPage() {
                         </Link>
                         <div>
                             <button
-                                onClick={() => { setResults(null); setStep(0); setForm(INITIAL); }}
+                                onClick={() => { setResults([]); setHasCalculated(false); setStep(0); setForm(INITIAL); }}
                                 className="text-sm text-gray-500 hover:text-orange-500 transition-colors mt-2"
                             >
                                 {hi ? 'दोबारा जांचें' : 'Start Over'}
@@ -202,7 +290,7 @@ export default function EligibilityPage() {
                                 </label>
                                 <select value={form.state} onChange={e => update('state', e.target.value)} className="select-field">
                                     <option value="">{hi ? 'राज्य चुनें' : 'Select State'}</option>
-                                    {INDIAN_STATES.filter(s => s !== 'All States').map(s => (
+                                    {INDIAN_STATES.filter((s: string) => s !== 'All States').map((s: string) => (
                                         <option key={s} value={s}>{s}</option>
                                     ))}
                                 </select>

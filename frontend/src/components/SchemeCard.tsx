@@ -7,16 +7,21 @@ import clsx from 'clsx';
 export interface Scheme {
     id: string;
     name: string;
-    nameHi?: string;
-    ministry: string;
-    category: string;
-    state: string;
+    ministry?: string;
     description: string;
-    benefit: string;
-    eligibility: string;
-    matchScore?: number;
-    tags?: string[];
-    deadline?: string;
+    target_group?: string;
+    benefits?: string;
+    income_limit?: number;
+    age_min?: number;
+    age_max?: number;
+    state_availability?: string[];
+    required_documents?: string[];
+    application_link?: string;
+    offline_office?: string;
+    application_steps?: string[];
+    last_date?: string;
+    eligibility_rules?: any;
+    fraud_warnings?: string[];
 }
 
 const categoryColors: Record<string, string> = {
@@ -46,8 +51,21 @@ interface SchemeCardProps {
 }
 
 export default function SchemeCard({ scheme, lang = 'en', compact = false }: SchemeCardProps) {
-    const categoryClass = categoryColors[scheme.category] ?? categoryColors.general;
-    const catIcon = categoryIcons[scheme.category] ?? '📋';
+    const getCategoryColor = () => {
+        const target = scheme.target_group?.toLowerCase() || '';
+        if (target.includes('farmer')) return 'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300';
+        if (target.includes('student')) return 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300';
+        if (target.includes('women')) return 'bg-pink-100 text-pink-700 dark:bg-pink-900/40 dark:text-pink-300';
+        return 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300';
+    };
+
+    const getCategoryIcon = () => {
+        const target = scheme.target_group?.toLowerCase() || '';
+        if (target.includes('farmer')) return '🌾';
+        if (target.includes('student')) return '🎓';
+        if (target.includes('women')) return '👩';
+        return '📋';
+    };
 
     return (
         <div className={clsx(
@@ -58,30 +76,20 @@ export default function SchemeCard({ scheme, lang = 'en', compact = false }: Sch
             <div className="flex items-start justify-between gap-3 mb-3">
                 <div className="flex-1">
                     <div className="flex items-center gap-2 mb-2 flex-wrap">
-                        <span className={clsx('badge text-xs font-semibold capitalize', categoryClass)}>
-                            {catIcon} {scheme.category}
+                        <span className={clsx('badge text-xs font-semibold capitalize', getCategoryColor())}>
+                            {getCategoryIcon()} {scheme.target_group || 'General'}
                         </span>
-                        {scheme.state !== 'All India' && (
-                            <span className="badge bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-300 text-xs">
-                                {scheme.state}
-                            </span>
-                        )}
-                        {scheme.matchScore !== undefined && scheme.matchScore >= 80 && (
-                            <span className="badge bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300 text-xs">
-                                ✅ {scheme.matchScore}% Match
-                            </span>
-                        )}
                     </div>
                     <h3 className={clsx(
                         'font-bold text-gray-900 dark:text-white leading-tight group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors',
                         compact ? 'text-sm' : 'text-base'
                     )}>
-                        {lang === 'hi' && scheme.nameHi ? scheme.nameHi : scheme.name}
+                        {scheme.name}
                     </h3>
                     <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{scheme.ministry}</p>
                 </div>
                 <div className="shrink-0 w-10 h-10 rounded-xl bg-orange-50 dark:bg-orange-900/20 flex items-center justify-center text-lg">
-                    {catIcon}
+                    {getCategoryIcon()}
                 </div>
             </div>
 
@@ -93,30 +101,10 @@ export default function SchemeCard({ scheme, lang = 'en', compact = false }: Sch
             )}
 
             {/* Benefit */}
-            <div className="flex items-start gap-2 mb-3">
-                <IndianRupee size={14} className="text-green-500 mt-0.5 shrink-0" />
-                <p className="text-sm font-medium text-gray-700 dark:text-gray-300">{scheme.benefit}</p>
-            </div>
-
-            {/* Eligibility */}
-            <div className="flex items-start gap-2 mb-4">
-                <Users size={14} className="text-blue-500 mt-0.5 shrink-0" />
-                <p className="text-xs text-gray-500 dark:text-gray-400 line-clamp-2">{scheme.eligibility}</p>
-            </div>
-
-            {/* Match score bar */}
-            {scheme.matchScore !== undefined && (
-                <div className="mb-4">
-                    <div className="flex justify-between items-center mb-1">
-                        <span className="text-xs text-gray-500">Eligibility Match</span>
-                        <span className="text-xs font-semibold text-orange-500">{scheme.matchScore}%</span>
-                    </div>
-                    <div className="progress-bar">
-                        <div
-                            className="progress-fill bg-gradient-to-r from-orange-400 to-green-500"
-                            style={{ width: `${scheme.matchScore}%` }}
-                        />
-                    </div>
+            {scheme.benefits && (
+                <div className="flex items-start gap-2 mb-3">
+                    <IndianRupee size={14} className="text-green-500 mt-0.5 shrink-0" />
+                    <p className="text-sm font-medium text-gray-700 dark:text-gray-300">{scheme.benefits}</p>
                 </div>
             )}
 
@@ -129,10 +117,17 @@ export default function SchemeCard({ scheme, lang = 'en', compact = false }: Sch
                     View Details
                     <ArrowRight size={14} />
                 </Link>
-                <button className="flex items-center gap-1 text-xs text-gray-500 hover:text-orange-500 transition-colors">
-                    <ExternalLink size={13} />
-                    Apply
-                </button>
+                {scheme.application_link && (
+                    <a 
+                        href={scheme.application_link} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1 text-xs text-gray-500 hover:text-orange-500 transition-colors"
+                    >
+                        <ExternalLink size={13} />
+                        Apply
+                    </a>
+                )}
             </div>
         </div>
     );

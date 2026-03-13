@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import {
@@ -14,8 +15,8 @@ import {
     Star,
     Share2,
 } from 'lucide-react';
-import { SCHEMES } from '@/lib/schemes-data';
 import { useTheme } from '@/components/ThemeProvider';
+import { getScheme } from '@/lib/api';
 
 const DOCUMENTS: Record<string, string[]> = {
     'pm-kisan': ['Aadhaar Card', 'Land Record (Khatauni)', 'Bank Passbook', 'Mobile Number'],
@@ -26,33 +27,141 @@ const DOCUMENTS: Record<string, string[]> = {
     'pm-awas-gramin': ['Aadhaar Card', 'BPL Certificate', 'Bank Passbook', 'Land Record', 'SECC Database inclusion proof'],
     'mudra-yojana': ['Aadhaar Card', 'PAN Card', 'Business Proof / License', 'Bank Passbook', 'Passport Size Photo'],
     'beti-bachao-padao': ['Birth Certificate', 'Aadhaar Card of Parents', 'Bank Passbook'],
-    'kcc': ['Aadhaar Card', 'Land Record', 'Bank Passbook', 'Passport Photo', 'Khasra / Khatauni'],
-    'iay-housing': ['Aadhaar Card', 'Income Certificate', 'Bank Passbook', 'Property Documents', 'Caste Certificate (if applicable)'],
+    'digital-india': ['Aadhaar Card', 'Mobile Number', 'Email ID'],
+    'make-in-india': ['PAN Card', 'GST Registration', 'Business Plan', 'Bank Account Details'],
+    'skill-india': ['Aadhaar Card', 'Educational Certificates', 'Bank Passbook'],
+    'swachh-bharat': ['Aadhaar Card', 'Address Proof', 'Bank Account Details'],
 };
 
 const APP_STEPS: Record<string, string[]> = {
     'pm-kisan': [
-        'Visit pmkisan.gov.in or nearest Common Service Centre (CSC)',
-        'Click on "Farmers Corner" → "New Farmer Registration"',
-        'Enter Aadhaar number and state',
-        'Fill in personal and land details',
+        'Visit the official PM-KISAN portal',
+        'Click on "New Farmer Registration"',
+        'Enter your Aadhaar number and verify OTP',
+        'Fill in your bank account details',
+        'Upload land records and submit application',
+        'Wait for verification and approval',
+    ],
+    'nsp-merit': [
+        'Go to National Scholarship Portal',
+        'Register with your email and mobile',
+        'Select the scholarship scheme',
+        'Fill the application form with details',
         'Upload required documents',
-        'Submit and note your application number',
+        'Submit and track application status',
+    ],
+    'pm-ujjwala': [
+        'Visit nearest LPG distributor',
+        'Fill the Ujjwala Yojana form',
+        'Attach required documents',
+        'Submit BPL certificate',
+        'Get connection after verification',
+    ],
+    'startup-india-seed': [
+        'Register on Startup India portal',
+        'Get DPIIT recognition',
+        'Apply for seed fund scheme',
+        'Submit business plan and pitch deck',
+        'Wait for evaluation and approval',
+    ],
+    'ayushman-bharat': [
+        'Check eligibility on PM-JAY portal',
+        'Visit nearest empaneled hospital',
+        'Show Aadhaar card and ration card',
+        'Get treatment cashless',
+        'Hospital settles claim directly',
+    ],
+    'pm-awas-gramin': [
+        'Apply through Gram Panchayat',
+        'Submit income and land documents',
+        'Get verification from officials',
+        'Wait for approval and sanction',
+        'Construct house as per guidelines',
+    ],
+    'mudra-yojana': [
+        'Approach any bank branch',
+        'Submit business plan',
+        'Provide collateral if required',
+        'Get loan approval',
+        'Start or expand business',
+    ],
+    'beti-bachao-padao': [
+        'Open Sukanya Samriddhi account',
+        'Deposit minimum required amount',
+        'Get tax benefits under 80C',
+        'Withdraw after girl turns 21',
+    ],
+    'digital-india': [
+        'Get Aadhaar card made',
+        'Link mobile number with Aadhaar',
+        'Create email ID',
+        'Learn to use government apps',
+        'Access digital services',
+    ],
+    'make-in-india': [
+        'Register business',
+        'Get necessary licenses',
+        'Apply for government incentives',
+        'Follow compliance requirements',
+        'Scale up manufacturing',
+    ],
+    'skill-india': [
+        'Visit nearest skill center',
+        'Choose skill course',
+        'Complete training program',
+        'Get certification',
+        'Apply for jobs or start business',
+    ],
+    'swachh-bharat': [
+        'Apply for toilet construction',
+        'Get approval from local body',
+        'Construct toilet as per norms',
+        'Get subsidy after verification',
     ],
     default: [
-        'Gather all required documents listed above',
-        'Visit the official government portal or nearest CSC',
-        'Fill in the application form with accurate details',
-        'Upload scanned copies of documents',
-        'Submit the application and save acknowledgement number',
-        'Track your application status on the portal',
+        'Check eligibility criteria',
+        'Gather required documents',
+        'Fill application form',
+        'Submit with supporting documents',
+        'Track application status',
+        'Follow up if needed',
     ],
 };
 
 export default function SchemeDetailPage({ params }: { params: { id: string } }) {
     const { lang } = useTheme();
     const hi = lang === 'hi';
-    const scheme = SCHEMES.find(s => s.id === params.id);
+    const [scheme, setScheme] = useState<any>(null);
+    const [loading, setLoading] = useState(true);
+
+    // Load scheme from API on component mount
+    useEffect(() => {
+        const loadScheme = async () => {
+            setLoading(true);
+            try {
+                const data = await getScheme(params.id);
+                setScheme(data);
+            } catch (error) {
+                console.error('Error loading scheme:', error);
+                notFound();
+            } finally {
+                setLoading(false);
+            }
+        };
+        loadScheme();
+    }, [params.id]);
+
+    if (loading) {
+        return (
+            <div className="min-h-screen bg-orange-50 dark:bg-gray-950 flex items-center justify-center">
+                <div className="text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mx-auto mb-4"></div>
+                    <p className="text-gray-600 dark:text-gray-400">Loading scheme details...</p>
+                </div>
+            </div>
+        );
+    }
+
     if (!scheme) notFound();
 
     const docs = DOCUMENTS[scheme.id] ?? DOCUMENTS['pm-kisan'];
@@ -73,29 +182,21 @@ export default function SchemeDetailPage({ params }: { params: { id: string } })
 
                     <div className="flex flex-col sm:flex-row sm:items-start gap-4">
                         <div className="w-16 h-16 rounded-2xl bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center text-3xl shrink-0">
-                            {scheme.category === 'farmer' ? '🌾' :
-                                scheme.category === 'student' ? '🎓' :
-                                    scheme.category === 'women' ? '👩' :
-                                        scheme.category === 'startup' ? '🚀' :
-                                            scheme.category === 'health' ? '🏥' : '🏠'}
+                            {scheme.target_group?.toLowerCase().includes('farmer') ? '🌾' :
+                                scheme.target_group?.toLowerCase().includes('student') ? '🎓' :
+                                    scheme.target_group?.toLowerCase().includes('women') ? '👩' :
+                                        scheme.target_group?.toLowerCase().includes('business') ? '🚀' :
+                                            scheme.target_group?.toLowerCase().includes('health') ? '🏥' : '🏠'}
                         </div>
                         <div className="flex-1">
                             <div className="flex flex-wrap gap-2 mb-2">
-                                <span className="badge badge-saffron capitalize">{scheme.category}</span>
-                                <span className="badge badge-green">{scheme.state}</span>
-                                {scheme.matchScore && (
-                                    <span className="badge bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300">
-                                        ✅ {scheme.matchScore}% Match
-                                    </span>
-                                )}
+                                <span className="badge badge-saffron capitalize">{scheme.target_group || 'General'}</span>
+                                <span className="badge badge-green">{scheme.state_availability?.join(', ') || 'All India'}</span>
                             </div>
                             <h1 className="text-xl sm:text-2xl font-black text-gray-900 dark:text-white mb-1">
                                 {scheme.name}
                             </h1>
-                            {scheme.nameHi && (
-                                <p className="text-base text-gray-500 dark:text-gray-400">{scheme.nameHi}</p>
-                            )}
-                            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{scheme.ministry}</p>
+                            <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">{scheme.ministry}</p>
                         </div>
                         <div className="flex gap-2">
                             <button className="btn-ghost">
@@ -127,7 +228,7 @@ export default function SchemeDetailPage({ params }: { params: { id: string } })
                     </div>
                     <div className="flex items-start gap-3 p-4 bg-green-50 dark:bg-green-900/20 rounded-xl border border-green-200 dark:border-green-800">
                         <CheckCircle2 size={20} className="text-green-500 shrink-0 mt-0.5" />
-                        <p className="font-semibold text-green-800 dark:text-green-300">{scheme.benefit}</p>
+                        <p className="font-semibold text-green-800 dark:text-green-300">{scheme.benefits}</p>
                     </div>
                 </div>
 
@@ -137,7 +238,7 @@ export default function SchemeDetailPage({ params }: { params: { id: string } })
                         <Users size={18} className="text-blue-500" />
                         <h2 className="font-bold text-gray-900 dark:text-white">{hi ? 'पात्रता' : 'Eligibility Criteria'}</h2>
                     </div>
-                    <p className="text-gray-600 dark:text-gray-300 leading-relaxed">{scheme.eligibility}</p>
+                    <p className="text-gray-600 dark:text-gray-300 leading-relaxed">{scheme.target_group || 'General eligibility criteria'}</p>
                 </div>
 
                 {/* Documents */}

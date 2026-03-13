@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
     LayoutDashboard,
     Users,
@@ -16,7 +16,7 @@ import {
     CheckCircle2,
     AlertCircle,
 } from 'lucide-react';
-import { SCHEMES } from '@/lib/schemes-data';
+import { listSchemes } from '@/lib/api';
 
 const STATS = [
     { label: 'Total Schemes', value: '1,024', change: '+12 this month', icon: BookOpen, color: 'bg-orange-100 text-orange-600 dark:bg-orange-900/30 dark:text-orange-400' },
@@ -27,10 +27,17 @@ const STATS = [
 
 const TOP_SCHEMES = [
     { name: 'PM-KISAN', searches: 42891, pct: 85 },
-    { name: 'Ayushman Bharat', searches: 38204, pct: 75 },
-    { name: 'MUDRA Yojana', searches: 29103, pct: 58 },
-    { name: 'PM Ujjwala', searches: 24819, pct: 49 },
-    { name: 'NSP Scholarship', searches: 19402, pct: 38 },
+    { name: 'Ayushman Bharat', searches: 38217, pct: 76 },
+    { name: 'PM Awas Yojana', searches: 29543, pct: 59 },
+    { name: 'Skill India', searches: 23456, pct: 47 },
+    { name: 'Digital India', searches: 19234, pct: 38 },
+];
+
+const RECENT_ACTIVITY = [
+    { msg: 'New user registration spike', time: '2 min ago', type: 'info' },
+    { msg: 'Scheme database updated', time: '15 min ago', type: 'success' },
+    { msg: 'High query volume detected', time: '1 hr ago', type: 'warning' },
+    { msg: 'Server response time high (>2s)', time: '5 hr ago', type: 'warning' },
 ];
 
 const STATE_DATA = [
@@ -55,8 +62,26 @@ type Tab = 'overview' | 'schemes' | 'users';
 export default function AdminPage() {
     const [activeTab, setActiveTab] = useState<Tab>('overview');
     const [schemeSearch, setSchemeSearch] = useState('');
+    const [schemes, setSchemes] = useState<any[]>([]);
+    const [loading, setLoading] = useState(false);
 
-    const filteredSchemes = SCHEMES.filter(s =>
+    // Load schemes from API on component mount
+    useEffect(() => {
+        const loadSchemes = async () => {
+            setLoading(true);
+            try {
+                const data = await listSchemes();
+                setSchemes(data);
+            } catch (error) {
+                console.error('Error loading schemes:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        loadSchemes();
+    }, []);
+
+    const filteredSchemes = schemes.filter((s: any) =>
         s.name.toLowerCase().includes(schemeSearch.toLowerCase())
     );
 
@@ -231,9 +256,9 @@ export default function AdminPage() {
                                                 <div className="text-xs text-gray-400">{scheme.ministry}</div>
                                             </td>
                                             <td className="py-3 px-2">
-                                                <span className="badge badge-saffron capitalize text-xs">{scheme.category}</span>
+                                                <span className="badge badge-saffron capitalize text-xs">{scheme.target_group || 'General'}</span>
                                             </td>
-                                            <td className="py-3 px-2 text-gray-500 dark:text-gray-400">{scheme.state}</td>
+                                            <td className="py-3 px-2 text-gray-500 dark:text-gray-400">{scheme.state_availability?.join(', ') || 'All India'}</td>
                                             <td className="py-3 px-2">
                                                 <div className="flex items-center justify-end gap-1">
                                                     <button className="p-1.5 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 text-blue-500 transition-colors" title="View">

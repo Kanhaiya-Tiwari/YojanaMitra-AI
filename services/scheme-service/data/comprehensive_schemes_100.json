@@ -1,0 +1,2072 @@
+[
+  {
+    "name": "PM-KISAN (Pradhan Mantri Kisan Samman Nidhi)",
+    "ministry": "Ministry of Agriculture & Farmers Welfare",
+    "description": "Income support to eligible farmer families with cultivable land. Provides ₹6,000 per year in three equal installments.",
+    "target_group": "Small and marginal farmers",
+    "income_limit": 200000,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Land Records", "Bank Account Details", "Mobile Number"],
+    "application_link": "https://pmkisan.gov.in/",
+    "offline_office": "Common Service Center (CSC) / Agriculture Department Office",
+    "application_steps": [
+      "Register on PM-KISAN portal",
+      "Upload Aadhaar and land records",
+      "Verify bank account details",
+      "Wait for verification and approval",
+      "Receive installments directly in bank account"
+    ],
+    "last_date": null,
+    "benefits": "₹6,000/year in 3 installments of ₹2,000 each",
+    "eligibility_rules": {
+      "all": [
+        {"op": "eq", "field": "occupation", "value": "farmer"},
+        {"op": "truthy", "field": "land_ownership"},
+        {"op": "lt", "field": "income", "value": 200000}
+      ]
+    }
+  },
+  {
+    "name": "National Scholarship Portal (NSP) - Scholarships",
+    "ministry": "Ministry of Education",
+    "description": "Centralized platform for various scholarship schemes for students from class 1 to post-graduate level.",
+    "target_group": "Students from economically weaker sections",
+    "income_limit": 300000,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Income Certificate", "Marksheet", "Bank Passbook", "Domicile Certificate"],
+    "application_link": "https://scholarships.gov.in/",
+    "offline_office": "Institute Scholarship Cell / District Education Office",
+    "application_steps": [
+      "Register on NSP portal",
+      "Complete student profile",
+      "Select relevant scholarship scheme",
+      "Upload required documents",
+      "Submit application and track status"
+    ],
+    "last_date": null,
+    "benefits": "Scholarship amount varies from ₹5,000 to ₹50,000 per year depending on scheme",
+    "eligibility_rules": {
+      "all": [
+        {"op": "truthy", "field": "is_student"},
+        {"op": "lt", "field": "income", "value": 300000}
+      ]
+    }
+  },
+  {
+    "name": "MGNREGA (Mahatma Gandhi National Rural Employment Guarantee Act)",
+    "ministry": "Ministry of Rural Development",
+    "description": "Guarantees 100 days of wage employment in a financial year to every rural household willing to do unskilled manual work.",
+    "target_group": "Rural households / Job seekers",
+    "income_limit": null,
+    "age_min": 18,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Job Card", "Bank Account Details", "Address Proof"],
+    "application_link": "https://nrega.nic.in/",
+    "offline_office": "Gram Panchayat Office",
+    "application_steps": [
+      "Apply for Job Card at Gram Panchayat",
+      "Submit Aadhaar and bank details",
+      "Request work allocation",
+      "Track muster roll and payments",
+      "Receive wages through bank account"
+    ],
+    "last_date": null,
+    "benefits": "100 days of guaranteed wage employment at state-specific wage rates",
+    "eligibility_rules": {
+      "all": [
+        {"op": "truthy", "field": "is_job_seeker"},
+        {"op": "truthy", "field": "location_rural"},
+        {"op": "gte", "field": "age", "value": 18}
+      ]
+    }
+  },
+  {
+    "name": "PMAY-G (Pradhan Mantri Awas Yojana - Gramin)",
+    "ministry": "Ministry of Rural Development",
+    "description": "Housing for all rural poor. Provides financial assistance for construction of houses.",
+    "target_group": "Rural poor households",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Income Certificate", "Bank Passbook", "Land Records", "BPL Certificate"],
+    "application_link": "https://pmayg.nic.in/",
+    "offline_office": "Gram Panchayat / Block Development Office (BDO)",
+    "application_steps": [
+      "Get household details verified by local body",
+      "Submit documents at Panchayat/BDO",
+      "Complete verification process",
+      "Wait for beneficiary selection",
+      "Follow construction milestones for fund release"
+    ],
+    "last_date": null,
+    "benefits": "Financial assistance up to ₹1,30,000 for house construction",
+    "eligibility_rules": {
+      "all": [
+        {"op": "truthy", "field": "location_rural"},
+        {"op": "lt", "field": "income", "value": 300000}
+      ]
+    }
+  },
+  {
+    "name": "PMBY (Pradhan Mantri Suraksha Bima Yojana)",
+    "ministry": "Ministry of Finance",
+    "description": "Accident insurance scheme providing ₹2 lakh coverage at premium of just ₹330 per year.",
+    "target_group": "All citizens aged 18-70 years",
+    "income_limit": null,
+    "age_min": 18,
+    "age_max": 70,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Bank Account Details"],
+    "application_link": "https://jansuraksha.gov.in/",
+    "offline_office": "Bank Branch",
+    "application_steps": [
+      "Visit bank branch with Aadhaar and account details",
+      "Fill enrollment form",
+      "Enable auto-debit for premium",
+      "Receive policy confirmation",
+      "Keep nomination details updated"
+    ],
+    "last_date": null,
+    "benefits": "Accidental death and disability cover of ₹2 lakh",
+    "eligibility_rules": {
+      "all": [
+        {"op": "gte", "field": "age", "value": 18},
+        {"op": "lte", "field": "age", "value": 70}
+      ]
+    }
+  },
+  {
+    "name": "PMJJBY (Pradhan Mantri Jeevan Jyoti Bima Yojana)",
+    "ministry": "Ministry of Finance",
+    "description": "Life insurance scheme providing ₹2 lakh life cover at premium of ₹436 per year.",
+    "target_group": "Citizens aged 18-50 years",
+    "income_limit": null,
+    "age_min": 18,
+    "age_max": 50,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Bank Account Details"],
+    "application_link": "https://jansuraksha.gov.in/",
+    "offline_office": "Bank Branch",
+    "application_steps": [
+      "Visit bank branch with documents",
+      "Fill enrollment form",
+      "Enable auto-debit for premium",
+      "Receive policy confirmation",
+      "Update nominee details"
+    ],
+    "last_date": null,
+    "benefits": "Life insurance cover of ₹2 lakh on death",
+    "eligibility_rules": {
+      "all": [
+        {"op": "gte", "field": "age", "value": 18},
+        {"op": "lte", "field": "age", "value": 50}
+      ]
+    }
+  },
+  {
+    "name": "PMEGP (Prime Minister's Employment Generation Programme)",
+    "ministry": "Ministry of Micro, Small and Medium Enterprises",
+    "description": "Credit-linked subsidy programme for setting up micro-enterprises and generating employment.",
+    "target_group": "Entrepreneurs and small business owners",
+    "income_limit": null,
+    "age_min": 18,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Project Report", "Bank Passbook", "Category Certificate", "Educational Qualification"],
+    "application_link": "https://www.kviconline.gov.in/pmegpeportal/",
+    "offline_office": "District Industries Centre (DIC)",
+    "application_steps": [
+      "Prepare detailed project report",
+      "Apply online on PMEGP portal",
+      "Get bank appraisal",
+      "Complete margin money subsidy process",
+      "Start enterprise with sanctioned funds"
+    ],
+    "last_date": null,
+    "benefits": "Subsidy on project cost up to 35% for general category, 50% for special categories",
+    "eligibility_rules": {
+      "all": [
+        {"op": "truthy", "field": "is_business_owner"},
+        {"op": "gte", "field": "age", "value": 18}
+      ]
+    }
+  },
+  {
+    "name": "PM Ujjwala Yojana",
+    "ministry": "Ministry of Petroleum and Natural Gas",
+    "description": "Provides free LPG connections to BPL families to reduce health hazards from traditional cooking fuels.",
+    "target_group": "BPL families and women from poor households",
+    "income_limit": null,
+    "age_min": 18,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "BPL Certificate", "Bank Account Details", "Address Proof", "Photo ID"],
+    "application_link": "https://pmujjwalayojana.org/",
+    "offline_office": "LPG Distributor / Common Service Center",
+    "application_steps": [
+      "Check eligibility criteria",
+      "Submit application with required documents",
+      "Get KYC verification at LPG distributor",
+      "Receive first refill and stove free of cost",
+      "Pay subsidized rates for subsequent refills"
+    ],
+    "last_date": null,
+    "benefits": "Free LPG connection with stove and first refill",
+    "eligibility_rules": {
+      "all": [
+        {"op": "lt", "field": "income", "value": 100000},
+        {"op": "gte", "field": "age", "value": 18}
+      ]
+    }
+  },
+  {
+    "name": "Sukanya Samriddhi Yojana",
+    "ministry": "Ministry of Finance",
+    "description": "Savings scheme for girl child education and marriage expenses with tax benefits.",
+    "target_group": "Parents of girl children",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Girl child's birth certificate", "Parent's ID proof", "Address proof", "Photographs"],
+    "application_link": "https://www.sukanyasamriddhi.gov.in/",
+    "offline_office": "Post Office / Authorized Banks",
+    "application_steps": [
+      "Open account at post office or bank",
+      "Submit girl child's birth certificate",
+      "Fill account opening form",
+      "Deposit minimum amount",
+      "Make regular deposits for better returns"
+    ],
+    "last_date": null,
+    "benefits": "Interest rate of 7.6% (current) with tax benefits under Section 80C",
+    "eligibility_rules": {
+      "all": []
+    }
+  },
+  {
+    "name": "Atal Pension Yojana",
+    "ministry": "Ministry of Finance",
+    "description": "Pension scheme for unorganized sector workers with guaranteed minimum pension.",
+    "target_group": "Unorganized sector workers",
+    "income_limit": 150000,
+    "age_min": 18,
+    "age_max": 40,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Bank Account Details", "Mobile Number"],
+    "application_link": "https://www.nsdl.co.in/",
+    "offline_office": "Bank Branch",
+    "application_steps": [
+      "Visit bank branch with documents",
+      "Choose pension amount (₹1,000 to ₹5,000)",
+      "Fill APY registration form",
+      "Enable auto-debit for contributions",
+      "Receive PRAN card and account details"
+    ],
+    "last_date": null,
+    "benefits": "Guaranteed monthly pension from age 60 onwards",
+    "eligibility_rules": {
+      "all": [
+        {"op": "lt", "field": "income", "value": 150000},
+        {"op": "gte", "field": "age", "value": 18},
+        {"op": "lte", "field": "age", "value": 40}
+      ]
+    }
+  },
+  {
+    "name": "Pradhan Mantri Mudra Yojana (PMMY)",
+    "ministry": "Ministry of Finance",
+    "description": "Provides loans up to ₹10 lakh to non-corporate, non-farm small/micro enterprises.",
+    "target_group": "Small entrepreneurs and business owners",
+    "income_limit": null,
+    "age_min": 18,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Business Plan", "KYC Documents", "Bank Account Details", "Business Registration Proof"],
+    "application_link": "https://www.mudra.org.in/",
+    "offline_office": "Banks / NBFCs / MFIs",
+    "application_steps": [
+      "Prepare business plan/project report",
+      "Apply at participating banks/NBFCs",
+      "Submit required documents",
+      "Get loan approval and disbursement",
+      "Repay loan as per agreed terms"
+    ],
+    "last_date": null,
+    "benefits": "Collateral-free loans up to ₹10 lakh in three categories: Shishu (up to ₹50,000), Kishore (₹50,001 to ₹5 lakh), Tarun (₹5,00,001 to ₹10 lakh)",
+    "eligibility_rules": {
+      "all": [
+        {"op": "truthy", "field": "is_business_owner"},
+        {"op": "gte", "field": "age", "value": 18}
+      ]
+    }
+  },
+  {
+    "name": "Digital India Land Records Modernization Programme (DILRMP)",
+    "ministry": "Ministry of Rural Development",
+    "description": "Modernization of land records system to ensure transparency and reduce disputes.",
+    "target_group": "Land owners and farmers",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Land Records", "Aadhaar Card", "Address Proof"],
+    "application_link": "https://landrecords.gov.in/",
+    "offline_office": "Revenue Department / Land Records Office",
+    "application_steps": [
+      "Apply for digital land records",
+      "Submit original land documents",
+      "Get verification from revenue authorities",
+      "Receive digital land record certificate",
+      "Access land records online"
+    ],
+    "last_date": null,
+    "benefits": "Transparent and accessible land records, reduced disputes, easier transactions",
+    "eligibility_rules": {
+      "all": [
+        {"op": "truthy", "field": "land_ownership"}
+      ]
+    }
+  },
+  {
+    "name": "National Social Assistance Programme (NSAP)",
+    "ministry": "Ministry of Rural Development",
+    "description": "Central sector scheme providing pension benefits to elderly, widows, and disabled persons.",
+    "target_group": "Elderly, widows, and disabled from BPL families",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "BPL Certificate", "Age Proof", "Disability Certificate (if applicable)", "Bank Account Details"],
+    "application_link": "https://nsap.nic.in/",
+    "offline_office": "District Social Welfare Office",
+    "application_steps": [
+      "Obtain application form from social welfare office",
+      "Fill form with required details",
+      "Attach supporting documents",
+      "Submit to district social welfare officer",
+      "Wait for verification and approval"
+    ],
+    "last_date": null,
+    "benefits": "Monthly pension: ₹200-₹500 for elderly, ₹300 for widows, ₹300-₹500 for disabled",
+    "eligibility_rules": {
+      "all": [
+        {"op": "lt", "field": "income", "value": 50000}
+      ]
+    }
+  },
+  {
+    "name": "Deen Dayal Upadhyaya Grameen Kaushalya Yojana (DDU-GKY)",
+    "ministry": "Ministry of Rural Development",
+    "description": "Skill development program for rural youth to place them in wage employment.",
+    "target_group": "Rural youth (15-35 years)",
+    "income_limit": null,
+    "age_min": 15,
+    "age_max": 35,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Educational Qualification", "Address Proof", "Bank Account Details"],
+    "application_link": "https://ddugky.gov.in/",
+    "offline_office": "DDU-GKY Training Centers",
+    "application_steps": [
+      "Register on DDU-GKY portal",
+      "Choose skill training program",
+      "Submit required documents",
+      "Complete training program",
+      "Get placement assistance"
+    ],
+    "last_date": null,
+    "benefits": "Free skill training with placement assistance and post-placement support",
+    "eligibility_rules": {
+      "all": [
+        {"op": "gte", "field": "age", "value": 15},
+        {"op": "lte", "field": "age", "value": 35},
+        {"op": "truthy", "field": "location_rural"}
+      ]
+    }
+  },
+  {
+    "name": "National Livelihood Mission (NLM)",
+    "ministry": "Ministry of Rural Development",
+    "description": "Poverty alleviation program through self-employment and skill training.",
+    "target_group": "Rural poor and women",
+    "income_limit": null,
+    "age_min": 18,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "BPL Certificate", "Bank Account Details", "Address Proof"],
+    "application_link": "https://nrlm.gov.in/",
+    "offline_office": "Block Mission Office",
+    "application_steps": [
+      "Form or join Self Help Group (SHG)",
+      "Register with Block Mission Office",
+      "Undergo skill training if required",
+      "Apply for loan for self-employment",
+      "Start income-generating activity"
+    ],
+    "last_date": null,
+    "benefits": "Financial assistance, skill training, and market linkage support",
+    "eligibility_rules": {
+      "all": [
+        {"op": "lt", "field": "income", "value": 100000},
+        {"op": "truthy", "field": "location_rural"}
+      ]
+    }
+  },
+  {
+    "name": "Pradhan Mantri Kaushal Vikas Yojana (PMKVY)",
+    "ministry": "Ministry of Skill Development and Entrepreneurship",
+    "description": "Skill certification and reward scheme to enable youth to take up industry-relevant skill training.",
+    "target_group": "Youth (14-35 years)",
+    "income_limit": null,
+    "age_min": 14,
+    "age_max": 35,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Bank Account Details", "Educational Qualification"],
+    "application_link": "https://pmkvyofficial.org/",
+    "offline_office": "PMKVY Training Centers",
+    "application_steps": [
+      "Find nearest PMKVY training center",
+      "Choose skill course and enroll",
+      "Complete training program",
+      "Get assessment and certification",
+      "Receive monetary reward of ₹8,000"
+    ],
+    "last_date": null,
+    "benefits": "Free skill training with certification and monetary reward of ₹8,000",
+    "eligibility_rules": {
+      "all": [
+        {"op": "gte", "field": "age", "value": 14},
+        {"op": "lte", "field": "age", "value": 35}
+      ]
+    }
+  },
+  {
+    "name": "National Health Mission (NHM)",
+    "ministry": "Ministry of Health and Family Welfare",
+    "description": "Comprehensive healthcare program providing accessible and affordable healthcare services.",
+    "target_group": "All citizens, especially rural and urban poor",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "BPL Card (if applicable)", "Address Proof"],
+    "application_link": "https://nhm.gov.in/",
+    "offline_office": "Primary Health Centers / Community Health Centers",
+    "application_steps": [
+      "Visit nearest health facility",
+      "Register for health services",
+      "Get health check-ups and treatments",
+      "Access maternal and child health services",
+      "Benefit from disease control programs"
+    ],
+    "last_date": null,
+    "benefits": "Free/subsidized healthcare services, medicines, and diagnostic tests",
+    "eligibility_rules": {
+      "all": []
+    }
+  },
+  {
+    "name": "Ayushman Bharat Pradhan Mantri Jan Arogya Yojana (AB-PMJAY)",
+    "ministry": "Ministry of Health and Family Welfare",
+    "description": "National Health Protection Scheme providing health coverage of ₹5 lakh per family per year.",
+    "target_group": "Poor and vulnerable families",
+    "income_limit": 250000,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "BPL Card", "Ration Card", "Bank Account Details"],
+    "application_link": "https://pmjay.gov.in/",
+    "offline_office": "Empaneled Hospitals / Common Service Centers",
+    "application_steps": [
+      "Check eligibility on PMJAY portal",
+      "Get e-card issued at empaneled hospital",
+      "Use e-card for cashless hospitalization",
+      "Avail treatment up to ₹5 lakh coverage",
+      "Get post-hospitalization follow-up"
+    ],
+    "last_date": null,
+    "benefits": "Health coverage of ₹5 lakh per family per year for secondary and tertiary care",
+    "eligibility_rules": {
+      "all": [
+        {"op": "lt", "field": "income", "value": 250000}
+      ]
+    }
+  },
+  {
+    "name": "Swachh Bharat Mission (SBM)",
+    "ministry": "Ministry of Jal Shakti",
+    "description": "Clean India Mission promoting sanitation and solid waste management.",
+    "target_group": "All citizens, especially rural households",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Address Proof", "Bank Account Details"],
+    "application_link": "https://swachhbharatmission.gov.in/",
+    "offline_office": "Gram Panchayat / Municipal Office",
+    "application_steps": [
+      "Apply for toilet construction incentive",
+      "Get verification from local authorities",
+      "Construct toilet as per guidelines",
+      "Get incentive amount transferred to bank",
+      "Maintain toilet usage and hygiene"
+    ],
+    "last_date": null,
+    "benefits": "Financial assistance for toilet construction (₹12,000 for individual household latrine)",
+    "eligibility_rules": {
+      "all": []
+    }
+  },
+  {
+    "name": "National Rural Drinking Water Programme (NRDWP)",
+    "ministry": "Ministry of Jal Shakti",
+    "description": "Providing safe drinking water in rural areas.",
+    "target_group": "Rural households",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Address Proof", "Water Connection Application"],
+    "application_link": "https://indiawater.gov.in/",
+    "offline_office": "Gram Panchayat / Water Supply Department",
+    "application_steps": [
+      "Apply for water connection",
+      "Get technical approval",
+      "Install water connection",
+      "Pay connection charges (if applicable)",
+      "Access safe drinking water"
+    ],
+    "last_date": null,
+    "benefits": "Access to safe and adequate drinking water supply",
+    "eligibility_rules": {
+      "all": [
+        {"op": "truthy", "field": "location_rural"}
+      ]
+    }
+  },
+  {
+    "name": "Pradhan Mantri Adarsh Gram Yojana (PMAGY)",
+    "ministry": "Ministry of Social Justice and Empowerment",
+    "description": "Integrated development of villages with more than 50% SC population.",
+    "target_group": "Villages with high SC population",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Village Development Plan", "SC Population Proof", "Bank Account Details"],
+    "application_link": "https://pmagy.gov.in/",
+    "offline_office": "District Collector Office",
+    "application_steps": [
+      "Prepare village development plan",
+      "Submit application to district collector",
+      "Get village selected under PMAGY",
+      "Implement development projects",
+      "Monitor progress and report outcomes"
+    ],
+    "last_date": null,
+    "benefits": "Integrated infrastructure development, education, health, and economic facilities",
+    "eligibility_rules": {
+      "all": []
+    }
+  },
+  {
+    "name": "National Urban Livelihoods Mission (NULM)",
+    "ministry": "Ministry of Housing and Urban Affairs",
+    "description": "Poverty alleviation program for urban poor through skill development and self-employment.",
+    "target_group": "Urban poor and street vendors",
+    "income_limit": null,
+    "age_min": 18,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Address Proof", "Income Certificate", "Bank Account Details"],
+    "application_link": "https://nulm.gov.in/",
+    "offline_office": "Urban Local Body Office",
+    "application_steps": [
+      "Register with urban local body",
+      "Choose skill training or self-employment option",
+      "Submit required documents",
+      "Get training or financial assistance",
+      "Start income-generating activity"
+    ],
+    "last_date": null,
+    "benefits": "Skill training, financial assistance, and market support for urban poor",
+    "eligibility_rules": {
+      "all": [
+        {"op": "gte", "field": "age", "value": 18},
+        {"op": "eq", "field": "location_rural", "value": false}
+      ]
+    }
+  },
+  {
+    "name": "Smart Cities Mission",
+    "ministry": "Ministry of Housing and Urban Affairs",
+    "description": "Urban renewal and retrofitting program to develop smart cities.",
+    "target_group": "Urban citizens",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["City Development Plan", "Project Proposal"],
+    "application_link": "https://smartcities.gov.in/",
+    "offline_office": "Smart City Corporation / Municipal Corporation",
+    "application_steps": [
+      "Check if city is selected under Smart Cities Mission",
+      "Participate in citizen consultation programs",
+      "Access smart city services and infrastructure",
+      "Benefit from improved urban services",
+      "Provide feedback for better implementation"
+    ],
+    "last_date": null,
+    "benefits": "Improved urban infrastructure, smart services, and better quality of life",
+    "eligibility_rules": {
+      "all": []
+    }
+  },
+  {
+    "name": "AMRUT (Atal Mission for Rejuvenation and Urban Transformation)",
+    "ministry": "Ministry of Housing and Urban Affairs",
+    "description": "Providing basic services like water supply, sewerage, and transport to urban households.",
+    "target_group": "Urban citizens",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Urban Local Body Application", "Project Proposal"],
+    "application_link": "https://amrut.gov.in/",
+    "offline_office": "Urban Local Body / Municipal Corporation",
+    "application_steps": [
+      "Check AMRUT projects in your city",
+      "Apply for water/sewerage connections",
+      "Benefit from improved urban services",
+      "Participate in citizen feedback programs",
+      "Access better urban infrastructure"
+    ],
+    "last_date": null,
+    "benefits": "Improved water supply, sewerage, transport, and green spaces",
+    "eligibility_rules": {
+      "all": []
+    }
+  },
+  {
+    "name": "National Education Policy (NEP) Implementation",
+    "ministry": "Ministry of Education",
+    "description": "Comprehensive education reform program for quality education at all levels.",
+    "target_group": "Students and educational institutions",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Educational Institution ID", "Student Enrollment Details"],
+    "application_link": "https://education.gov.in/",
+    "offline_office": "Educational Institutions",
+    "application_steps": [
+      "Access NEP benefits through educational institutions",
+      "Participate in new educational programs",
+      "Benefit from curriculum reforms",
+      "Access scholarships and financial aid",
+      "Develop skills through new education framework"
+    ],
+    "last_date": null,
+    "benefits": "Quality education, skill development, and better career opportunities",
+    "eligibility_rules": {
+      "all": []
+    }
+  },
+  {
+    "name": "Kisan Credit Card (KCC) Scheme",
+    "ministry": "Ministry of Agriculture & Farmers Welfare",
+    "description": "Credit facility for farmers to meet cultivation expenses and agricultural needs.",
+    "target_group": "Farmers and cultivators",
+    "income_limit": null,
+    "age_min": 18,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Land Records", "Aadhaar Card", "Bank Account Details", "Identity Proof", "Address Proof"],
+    "application_link": "https://www.kisancreditcard.in/",
+    "offline_office": "Bank Branch / Agricultural Department",
+    "application_steps": [
+      "Apply at bank branch with required documents",
+      "Submit land ownership proof",
+      "Get credit limit approved based on land holding",
+      "Receive KCC card and credit facility",
+      "Use for agricultural expenses"
+    ],
+    "last_date": null,
+    "benefits": "Credit limit up to ₹3 lakh with interest subvention of 2% on timely repayment",
+    "eligibility_rules": {
+      "all": [
+        {"op": "eq", "field": "occupation", "value": "farmer"},
+        {"op": "truthy", "field": "land_ownership"},
+        {"op": "gte", "field": "age", "value": 18}
+      ]
+    }
+  },
+  {
+    "name": "Pradhan Mantri Shram Yogi Maan-Dhan (PM-SYM)",
+    "ministry": "Ministry of Labour & Employment",
+    "description": "Pension scheme for unorganized sector workers with matching contribution from government.",
+    "target_group": "Unorganized sector workers",
+    "income_limit": 150000,
+    "age_min": 18,
+    "age_max": 40,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Bank Account Details", "Savings Bank Account Passbook"],
+    "application_link": "https://pmsym.gov.in/",
+    "offline_office": "Common Service Centers",
+    "application_steps": [
+      "Register at Common Service Center",
+      "Provide Aadhaar and bank details",
+      "Choose monthly contribution (₹55-₹200)",
+      "Get matching contribution from government",
+      "Receive pension from age 60"
+    ],
+    "last_date": null,
+    "benefits": "Minimum assured pension of ₹3,000 per month after age 60",
+    "eligibility_rules": {
+      "all": [
+        {"op": "lt", "field": "income", "value": 150000},
+        {"op": "gte", "field": "age", "value": 18},
+        {"op": "lte", "field": "age", "value": 40}
+      ]
+    }
+  },
+  {
+    "name": "National Pension System (NPS)",
+    "ministry": "Ministry of Finance",
+    "description": "Voluntary retirement savings scheme for systematic savings during working life.",
+    "target_group": "All citizens aged 18-65 years",
+    "income_limit": null,
+    "age_min": 18,
+    "age_max": 65,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "PAN Card", "Bank Account Details", "Address Proof"],
+    "application_link": "https://nps.nsdl.co.in/",
+    "offline_office": "Point of Presence (POP) Centers",
+    "application_steps": [
+      "Open NPS account through POP center",
+      "Choose investment options and pension fund",
+      "Make regular contributions",
+      "Monitor account performance",
+      "Withdraw pension at retirement"
+    ],
+    "last_date": null,
+    "benefits": "Tax benefits under Section 80CCD, market-linked returns, systematic retirement planning",
+    "eligibility_rules": {
+      "all": [
+        {"op": "gte", "field": "age", "value": 18},
+        {"op": "lte", "field": "age", "value": 65}
+      ]
+    }
+  },
+  {
+    "name": "Pradhan Mantri Jan Dhan Yojana (PMJDY)",
+    "ministry": "Ministry of Finance",
+    "description": "Financial inclusion program providing access to banking services.",
+    "target_group": "All citizens without bank accounts",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "PAN Card (if available)", "Photograph"],
+    "application_link": "https://pmjdy.gov.in/",
+    "offline_office": "Bank Branch",
+    "application_steps": [
+      "Visit bank branch with documents",
+      "Fill account opening form",
+      "Submit KYC documents",
+      "Receive RuPay debit card",
+      "Access banking services and overdraft facility"
+    ],
+    "last_date": null,
+    "benefits": "Zero balance account, RuPay debit card, accident insurance cover, overdraft facility",
+    "eligibility_rules": {
+      "all": []
+    }
+  },
+  {
+    "name": "Stand Up India Scheme",
+    "ministry": "Ministry of Finance",
+    "description": "Promotes entrepreneurship among women and SC/ST communities.",
+    "target_group": "Women and SC/ST entrepreneurs",
+    "income_limit": null,
+    "age_min": 18,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Caste Certificate (if applicable)", "Business Plan", "Bank Account Details"],
+    "application_link": "https://standupmitra.in/",
+    "offline_office": "Scheduled Commercial Banks",
+    "application_steps": [
+      "Prepare detailed business plan",
+      "Apply at scheduled commercial bank",
+      "Submit required documents",
+      "Get loan approval and sanction",
+      "Start or expand business venture"
+    ],
+    "last_date": null,
+    "benefits": "Composite loan between ₹10 lakh to ₹1 crore for Greenfield projects",
+    "eligibility_rules": {
+      "all": [
+        {"op": "gte", "field": "age", "value": 18},
+        {"op": "truthy", "field": "is_business_owner"}
+      ]
+    }
+  },
+  {
+    "name": "Startup India Scheme",
+    "ministry": "Ministry of Commerce and Industry",
+    "description": "Promotes startup ecosystem through tax benefits and funding support.",
+    "target_group": "Startups and entrepreneurs",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Incorporation Certificate", "PAN Card", "Bank Account Details", "Business Plan"],
+    "application_link": "https://startupindia.gov.in/",
+    "offline_office": "Startup India Hub",
+    "application_steps": [
+      "Register on Startup India portal",
+      "Complete DPIIT recognition process",
+      "Get tax benefits and funding access",
+      "Participate in startup events",
+      "Access mentorship and networking"
+    ],
+    "last_date": null,
+    "benefits": "Tax exemption for 3 years, self-certification compliance, fast-track patent filing",
+    "eligibility_rules": {
+      "all": [
+        {"op": "truthy", "field": "is_business_owner"}
+      ]
+    }
+  },
+  {
+    "name": "Digital India Programme",
+    "ministry": "Ministry of Electronics and Information Technology",
+    "description": "Transforming India into digitally empowered society and knowledge economy.",
+    "target_group": "All citizens",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Mobile Number", "Email ID"],
+    "application_link": "https://digitalindia.gov.in/",
+    "offline_office": "Common Service Centers",
+    "application_steps": [
+      "Get digital literacy training",
+      "Access digital services online",
+      "Use digital payment systems",
+      "Participate in digital governance",
+      "Access online education and healthcare"
+    ],
+    "last_date": null,
+    "benefits": "Digital literacy, access to online services, digital payments, e-governance",
+    "eligibility_rules": {
+      "all": []
+    }
+  },
+  {
+    "name": "Make in India Initiative",
+    "ministry": "Ministry of Commerce and Industry",
+    "description": "Promotes manufacturing in India and attracts foreign investment.",
+    "target_group": "Manufacturers and investors",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Business Registration", "Investment Plan", "Project Report"],
+    "application_link": "https://makeinindia.com/",
+    "offline_office": "Invest India",
+    "application_steps": [
+      "Identify manufacturing sector",
+      "Prepare investment proposal",
+      "Apply through Make in India portal",
+      "Get approvals and clearances",
+      "Set up manufacturing facility"
+    ],
+    "last_date": null,
+    "benefits": "Investment facilitation, policy support, infrastructure development, skill development",
+    "eligibility_rules": {
+      "all": [
+        {"op": "truthy", "field": "is_business_owner"}
+      ]
+    }
+  },
+  {
+    "name": "Skill India Mission",
+    "ministry": "Ministry of Skill Development and Entrepreneurship",
+    "description": "Comprehensive skill development program to train youth for employment.",
+    "target_group": "Youth and job seekers",
+    "income_limit": null,
+    "age_min": 15,
+    "age_max": 35,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Educational Qualification", "Address Proof"],
+    "application_link": "https://skillindia.gov.in/",
+    "offline_office": "Skill Development Centers",
+    "application_steps": [
+      "Register on Skill India portal",
+      "Choose skill training program",
+      "Undergo training at certified center",
+      "Get certification and assessment",
+      "Access job placement services"
+    ],
+    "last_date": null,
+    "benefits": "Free skill training, certification, job placement assistance, entrepreneurship support",
+    "eligibility_rules": {
+      "all": [
+        {"op": "gte", "field": "age", "value": 15},
+        {"op": "lte", "field": "age", "value": 35}
+      ]
+    }
+  },
+  {
+    "name": "Swachh Bharat Abhiyan - Urban",
+    "ministry": "Ministry of Housing and Urban Affairs",
+    "description": "Urban cleanliness and solid waste management program.",
+    "target_group": "Urban citizens and municipalities",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Address Proof", "Identity Card"],
+    "application_link": "https://swachhbharaturban.gov.in/",
+    "offline_office": "Municipal Corporation",
+    "application_steps": [
+      "Participate in cleanliness drives",
+      "Segregate waste at source",
+      "Use public toilets",
+      "Report garbage issues",
+      "Maintain surrounding cleanliness"
+    ],
+    "last_date": null,
+    "benefits": "Clean urban environment, better sanitation, disease prevention",
+    "eligibility_rules": {
+      "all": [
+        {"op": "eq", "field": "location_rural", "value": false}
+      ]
+    }
+  },
+  {
+    "name": "National Solar Mission",
+    "ministry": "Ministry of New and Renewable Energy",
+    "description": "Promotes solar energy generation and installation of solar panels.",
+    "target_group": "Households, industries, and institutions",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Property Documents", "Electricity Bill", "Aadhaar Card", "Bank Account Details"],
+    "application_link": "https://mnre.gov.in/",
+    "offline_office": "State Nodal Agencies",
+    "application_steps": [
+      "Apply for solar subsidy",
+      "Get technical approval",
+      "Install solar panels",
+      "Get system inspected and approved",
+      "Receive subsidy and net metering benefits"
+    ],
+    "last_date": null,
+    "benefits": "Subsidy up to 40% for solar systems, reduced electricity bills, clean energy",
+    "eligibility_rules": {
+      "all": []
+    }
+  },
+  {
+    "name": "Pradhan Mantri Sahaj Bijli Har Ghar Yojana (Saubhagya)",
+    "ministry": "Ministry of Power",
+    "description": "Providing electricity connections to all households.",
+    "target_group": "Households without electricity connection",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Address Proof", "Photograph"],
+    "application_link": "https://saubhagya.gov.in/",
+    "offline_office": "Local Electricity Office",
+    "application_steps": [
+      "Apply at local electricity office",
+      "Submit required documents",
+      "Get electricity connection installed",
+      "Pay connection charges (if applicable)",
+      "Access electricity services"
+    ],
+    "last_date": null,
+    "benefits": "Free electricity connection for BPL families, subsidized for others",
+    "eligibility_rules": {
+      "all": []
+    }
+  },
+  {
+    "name": "Deendayal Upadhyaya Gram Jyoti Yojana (DDUGJY)",
+    "ministry": "Ministry of Power",
+    "description": "Rural electrification program for power supply to agricultural and rural loads.",
+    "target_group": "Rural households and farmers",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Land Records", "Address Proof"],
+    "application_link": "https://powermin.gov.in/",
+    "offline_office": "State Electricity Board",
+    "application_steps": [
+      "Apply for rural electrification",
+      "Get village electrified through DDUGJY",
+      "Apply for agricultural power connection",
+      "Get separate feeders for agricultural and domestic use",
+      "Benefit from improved power supply"
+    ],
+    "last_date": null,
+    "benefits": "24x7 power supply to rural areas, separate agricultural feeders, reduced losses",
+    "eligibility_rules": {
+      "all": [
+        {"op": "truthy", "field": "location_rural"}
+      ]
+    }
+  },
+  {
+    "name": "National Mission on Sustainable Agriculture",
+    "ministry": "Ministry of Agriculture & Farmers Welfare",
+    "description": "Promotes sustainable agriculture through climate-resilient practices.",
+    "target_group": "Farmers and agricultural communities",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Land Records", "Aadhaar Card", "Bank Account Details"],
+    "application_link": "https://nmsa.gov.in/",
+    "offline_office": "Agriculture Department",
+    "application_steps": [
+      "Apply for sustainable agriculture practices",
+      "Get training on climate-resilient farming",
+      "Adopt recommended agricultural practices",
+      "Access subsidies for equipment and inputs",
+      "Improve agricultural productivity"
+    ],
+    "last_date": null,
+    "benefits": "Sustainable farming practices, climate resilience, improved productivity",
+    "eligibility_rules": {
+      "all": [
+        {"op": "eq", "field": "occupation", "value": "farmer"}
+      ]
+    }
+  },
+  {
+    "name": "Pradhan Mantri Krishi Sinchai Yojana (PMKSY)",
+    "ministry": "Ministry of Agriculture & Farmers Welfare",
+    "description": "Expands cultivated area with assured irrigation and improves water use efficiency.",
+    "target_group": "Farmers",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Land Records", "Aadhaar Card", "Bank Account Details"],
+    "application_link": "https://pmksy.gov.in/",
+    "offline_office": "Agriculture Department",
+    "application_steps": [
+      "Apply for irrigation infrastructure",
+      "Get subsidy for drip/sprinkler irrigation",
+      "Install water-saving irrigation systems",
+      "Get training on water management",
+      "Improve crop productivity with assured irrigation"
+    ],
+    "last_date": null,
+    "benefits": "Assured irrigation, water conservation, increased crop productivity",
+    "eligibility_rules": {
+      "all": [
+        {"op": "eq", "field": "occupation", "value": "farmer"},
+        {"op": "truthy", "field": "land_ownership"}
+      ]
+    }
+  },
+  {
+    "name": "Soil Health Card Scheme",
+    "ministry": "Ministry of Agriculture & Farmers Welfare",
+    "description": "Provides soil health information to farmers for balanced fertilizer use.",
+    "target_group": "Farmers",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Land Records", "Aadhaar Card", "Address Proof"],
+    "application_link": "https://soilhealth.dac.gov.in/",
+    "offline_office": "Agriculture Department",
+    "application_steps": [
+      "Apply for soil health card",
+      "Submit soil sample for testing",
+      "Get soil health report with recommendations",
+      "Follow fertilizer recommendations",
+      "Improve soil fertility and crop yield"
+    ],
+    "last_date": null,
+    "benefits": "Soil health information, balanced fertilizer recommendations, improved crop yield",
+    "eligibility_rules": {
+      "all": [
+        {"op": "eq", "field": "occupation", "value": "farmer"}
+      ]
+    }
+  },
+  {
+    "name": "Paramparagat Krishi Vikas Yojana (PKVY)",
+    "ministry": "Ministry of Agriculture & Farmers Welfare",
+    "description": "Promotes organic farming and traditional agricultural practices.",
+    "target_group": "Farmers interested in organic farming",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Land Records", "Aadhaar Card", "Bank Account Details"],
+    "application_link": "https://pgsindia-ncof.gov.in/",
+    "offline_office": "Agriculture Department",
+    "application_steps": [
+      "Form group of farmers for organic farming",
+      "Apply for PKVY certification",
+      "Adopt organic farming practices",
+      "Get certification for organic produce",
+      "Access premium markets for organic products"
+    ],
+    "last_date": null,
+    "benefits": "Financial assistance for organic farming, certification support, market access",
+    "eligibility_rules": {
+      "all": [
+        {"op": "eq", "field": "occupation", "value": "farmer"}
+      ]
+    }
+  },
+  {
+    "name": "e-NAM (National Agriculture Market)",
+    "ministry": "Ministry of Agriculture & Farmers Welfare",
+    "description": "Online trading platform for agricultural commodities.",
+    "target_group": "Farmers and traders",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Bank Account Details", "PAN Card"],
+    "application_link": "https://enam.gov.in/",
+    "offline_office": "Mandi Office",
+    "application_steps": [
+      "Register on e-NAM portal",
+      "Get KYC verification completed",
+      "List agricultural products for sale",
+      "Participate in online bidding",
+      "Receive payment directly in bank account"
+    ],
+    "last_date": null,
+    "benefits": "Better price discovery, transparent trading, wider market access",
+    "eligibility_rules": {
+      "all": [
+        {"op": "eq", "field": "occupation", "value": "farmer"}
+      ]
+    }
+  },
+  {
+    "name": "National Mission on Food Processing",
+    "ministry": "Ministry of Food Processing Industries",
+    "description": "Promotes food processing industries and reduces post-harvest losses.",
+    "target_group": "Food processors and farmers",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Business Registration", "Project Report", "Bank Account Details"],
+    "application_link": "https://mofpi.gov.in/",
+    "offline_office": "Ministry of Food Processing Industries",
+    "application_steps": [
+      "Apply for food processing subsidy",
+      "Submit detailed project report",
+      "Get approval and financial assistance",
+      "Set up food processing unit",
+      "Access market linkage support"
+    ],
+    "last_date": null,
+    "benefits": "Financial assistance for food processing, technology upgradation, market access",
+    "eligibility_rules": {
+      "all": [
+        {"op": "truthy", "field": "is_business_owner"}
+      ]
+    }
+  },
+  {
+    "name": "Operation Flood (White Revolution)",
+    "ministry": "Ministry of Fisheries, Animal Husbandry and Dairying",
+    "description": "Dairy development program making India self-sufficient in milk production.",
+    "target_group": "Dairy farmers and cooperatives",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Bank Account Details", "Milk Production Details"],
+    "application_link": "https://dairy.gov.in/",
+    "offline_office": "Dairy Development Department",
+    "application_steps": [
+      "Join dairy cooperative society",
+      "Register milk production details",
+      "Get training on dairy farming",
+      "Access veterinary services",
+      "Sell milk through cooperative network"
+    ],
+    "last_date": null,
+    "benefits": "Assured market for milk, better prices, technical support, breeding services",
+    "eligibility_rules": {
+      "all": [
+        {"op": "eq", "field": "occupation", "value": "farmer"}
+      ]
+    }
+  },
+  {
+    "name": "Blue Revolution",
+    "ministry": "Ministry of Fisheries, Animal Husbandry and Dairying",
+    "description": "Development of fisheries and aquaculture sector.",
+    "target_group": "Fishermen and fish farmers",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Bank Account Details", "Fishing License"],
+    "application_link": "https://dof.gov.in/",
+    "offline_office": "Fisheries Department",
+    "application_steps": [
+      "Apply for fishing license",
+      "Get training in aquaculture",
+      "Access financial assistance for fish farming",
+      "Get quality fish seed and feed",
+      "Market fish produce through organized channels"
+    ],
+    "last_date": null,
+    "benefits": "Financial assistance, training, market access, infrastructure development",
+    "eligibility_rules": {
+      "all": [
+        {"op": "eq", "field": "occupation", "value": "fisherman"}
+      ]
+    }
+  },
+  {
+    "name": "National Livestock Mission",
+    "ministry": "Ministry of Fisheries, Animal Husbandry and Dairying",
+    "description": "Sustainable development of livestock sector.",
+    "target_group": "Livestock farmers and rearers",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Bank Account Details", "Livestock Details"],
+    "application_link": "https://dahd.gov.in/",
+    "offline_office": "Animal Husbandry Department",
+    "application_steps": [
+      "Apply for livestock development assistance",
+      "Get training in animal husbandry",
+      "Access breeding services",
+      "Get veterinary health services",
+      "Access market for livestock products"
+    ],
+    "last_date": null,
+    "benefits": "Financial assistance, breeding services, veterinary care, market access",
+    "eligibility_rules": {
+      "all": [
+        {"op": "eq", "field": "occupation", "value": "farmer"}
+      ]
+    }
+  },
+  {
+    "name": "National Horticulture Mission",
+    "ministry": "Ministry of Agriculture & Farmers Welfare",
+    "description": "Development of horticulture crops and post-harvest infrastructure.",
+    "target_group": "Horticulture farmers",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Land Records", "Aadhaar Card", "Bank Account Details"],
+    "application_link": "https://nhm.gov.in/",
+    "offline_office": "Horticulture Department",
+    "application_steps": [
+      "Apply for horticulture development assistance",
+      "Get quality planting material",
+      "Access training in horticulture practices",
+      "Set up post-harvest infrastructure",
+      "Access market for horticulture produce"
+    ],
+    "last_date": null,
+    "benefits": "Financial assistance, quality planting material, training, market access",
+    "eligibility_rules": {
+      "all": [
+        {"op": "eq", "field": "occupation", "value": "farmer"}
+      ]
+    }
+  },
+  {
+    "name": "National Bamboo Mission",
+    "ministry": "Ministry of Agriculture & Farmers Welfare",
+    "description": "Promotes bamboo cultivation and bamboo-based industries.",
+    "target_group": "Farmers and bamboo entrepreneurs",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Land Records", "Aadhaar Card", "Bank Account Details"],
+    "application_link": "https://nbm.gov.in/",
+    "offline_office": "Bamboo Development Agency",
+    "application_steps": [
+      "Apply for bamboo cultivation assistance",
+      "Get quality bamboo saplings",
+      "Access training in bamboo cultivation",
+      "Set up bamboo processing unit",
+      "Access market for bamboo products"
+    ],
+    "last_date": null,
+    "benefits": "Financial assistance, quality planting material, training, market access",
+    "eligibility_rules": {
+      "all": [
+        {"op": "eq", "field": "occupation", "value": "farmer"}
+      ]
+    }
+  },
+  {
+    "name": "National Beekeeping and Honey Mission",
+    "ministry": "Ministry of Agriculture & Farmers Welfare",
+    "description": "Promotes beekeeping and honey production.",
+    "target_group": "Beekeepers and farmers",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Bank Account Details", "Land Records"],
+    "application_link": "https://nbhm.gov.in/",
+    "offline_office": "Agriculture Department",
+    "application_steps": [
+      "Apply for beekeeping assistance",
+      "Get training in beekeeping",
+      "Access quality bee colonies",
+      "Set up honey processing unit",
+      "Access market for honey products"
+    ],
+    "last_date": null,
+    "benefits": "Financial assistance, training, quality bee colonies, market access",
+    "eligibility_rules": {
+      "all": [
+        {"op": "eq", "field": "occupation", "value": "farmer"}
+      ]
+    }
+  },
+  {
+    "name": "National Rural Livelihoods Mission (NRLM)",
+    "ministry": "Ministry of Rural Development",
+    "description": "Poverty reduction through self-employment and skill development.",
+    "target_group": "Rural poor and women",
+    "income_limit": null,
+    "age_min": 18,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "BPL Certificate", "Bank Account Details"],
+    "application_link": "https://nrlm.gov.in/",
+    "offline_office": "Block Mission Office",
+    "application_steps": [
+      "Form Self Help Group (SHG)",
+      "Register with NRLM",
+      "Get skill training",
+      "Access credit facilities",
+      "Start income-generating activities"
+    ],
+    "last_date": null,
+    "benefits": "Financial assistance, skill training, market access, social mobilization",
+    "eligibility_rules": {
+      "all": [
+        {"op": "lt", "field": "income", "value": 100000},
+        {"op": "truthy", "field": "location_rural"}
+      ]
+    }
+  },
+  {
+    "name": "National Urban Health Mission (NUHM)",
+    "ministry": "Ministry of Health and Family Welfare",
+    "description": "Urban healthcare program for urban poor and slum dwellers.",
+    "target_group": "Urban poor and slum dwellers",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Income Certificate", "Address Proof"],
+    "application_link": "https://nuhm.gov.in/",
+    "offline_office": "Urban Health Centers",
+    "application_steps": [
+      "Register at urban health center",
+      "Get health check-ups",
+      "Access maternal and child health services",
+      "Get treatment for diseases",
+      "Access health education programs"
+    ],
+    "last_date": null,
+    "benefits": "Free healthcare services, medicines, diagnostic tests, health education",
+    "eligibility_rules": {
+      "all": [
+        {"op": "eq", "field": "location_rural", "value": false}
+      ]
+    }
+  },
+  {
+    "name": "National Mental Health Programme (NMHP)",
+    "ministry": "Ministry of Health and Family Welfare",
+    "description": "Mental healthcare services and awareness programs.",
+    "target_group": "All citizens needing mental health support",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Medical Records"],
+    "application_link": "https://nmhp.gov.in/",
+    "offline_office": "District Mental Health Program",
+    "application_steps": [
+      "Visit district mental health center",
+      "Get mental health assessment",
+      "Access counseling services",
+      "Get treatment and medication",
+      "Join support groups"
+    ],
+    "last_date": null,
+    "benefits": "Free mental health services, counseling, treatment, rehabilitation support",
+    "eligibility_rules": {
+      "all": []
+    }
+  },
+  {
+    "name": "National AIDS Control Programme (NACP)",
+    "ministry": "Ministry of Health and Family Welfare",
+    "description": "HIV/AIDS prevention, treatment, and care program.",
+    "target_group": "All citizens, especially high-risk groups",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Medical Reports"],
+    "application_link": "https://naco.gov.in/",
+    "offline_office": "ART Centers",
+    "application_steps": [
+      "Get HIV testing at designated centers",
+      "Register for treatment if positive",
+      "Access ART medication",
+      "Get counseling and support",
+      "Join peer support groups"
+    ],
+    "last_date": null,
+    "benefits": "Free HIV testing, ART medication, counseling, prevention services",
+    "eligibility_rules": {
+      "all": []
+    }
+  },
+  {
+    "name": "National Tuberculosis Elimination Programme",
+    "ministry": "Ministry of Health and Family Welfare",
+    "description": "TB prevention, diagnosis, and treatment program.",
+    "target_group": "TB patients and general population",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Medical Reports"],
+    "application_link": "https://tbcindia.gov.in/",
+    "offline_office": "DOTS Centers",
+    "application_steps": [
+      "Get TB testing at government facilities",
+      "Register for treatment if diagnosed",
+      "Access free TB medication",
+      "Complete full treatment course",
+      "Get nutritional support"
+    ],
+    "last_date": null,
+    "benefits": "Free TB diagnosis and treatment, nutritional support, follow-up care",
+    "eligibility_rules": {
+      "all": []
+    }
+  },
+  {
+    "name": "National Vector Borne Disease Control Programme",
+    "ministry": "Ministry of Health and Family Welfare",
+    "description": "Control and prevention of vector-borne diseases like malaria, dengue, chikungunya.",
+    "target_group": "All citizens in endemic areas",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card"],
+    "application_link": "https://nvbdcp.gov.in/",
+    "offline_office": "District Malaria Office",
+    "application_steps": [
+      "Access diagnostic services",
+      "Get free treatment for vector-borne diseases",
+      "Participate in prevention activities",
+      "Use preventive measures like bed nets",
+      "Report disease outbreaks"
+    ],
+    "last_date": null,
+    "benefits": "Free diagnosis and treatment, preventive measures, awareness programs",
+    "eligibility_rules": {
+      "all": []
+    }
+  },
+  {
+    "name": "National Leprosy Eradication Programme",
+    "ministry": "Ministry of Health and Family Welfare",
+    "description": "Leprosy detection, treatment, and rehabilitation program.",
+    "target_group": "Leprosy patients and general population",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Medical Reports"],
+    "application_link": "https://nlep.gov.in/",
+    "offline_office": "District Leprosy Office",
+    "application_steps": [
+      "Get screened for leprosy",
+      "Access free treatment if diagnosed",
+      "Get reconstructive surgery if needed",
+      "Access rehabilitation services",
+      "Join support groups"
+    ],
+    "last_date": null,
+    "benefits": "Free treatment, surgery, rehabilitation, social integration support",
+    "eligibility_rules": {
+      "all": []
+    }
+  },
+  {
+    "name": "National Blindness Control Programme",
+    "ministry": "Ministry of Health and Family Welfare",
+    "description": "Blindness prevention and treatment program.",
+    "target_group": "All citizens, especially elderly and diabetics",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Medical Records"],
+    "application_link": "https://npcbvi.gov.in/",
+    "offline_office": "District Blindness Control Society",
+    "application_steps": [
+      "Get eye screening at government facilities",
+      "Access free cataract surgery",
+      "Get treatment for eye diseases",
+      "Access vision aids",
+      "Participate in awareness programs"
+    ],
+    "last_date": null,
+    "benefits": "Free eye screening, cataract surgery, treatment, vision aids",
+    "eligibility_rules": {
+      "all": []
+    }
+  },
+  {
+    "name": "National Deafness Control Programme",
+    "ministry": "Ministry of Health and Family Welfare",
+    "description": "Hearing impairment prevention and treatment program.",
+    "target_group": "All citizens with hearing problems",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Medical Reports"],
+    "application_link": "https://ndcp.gov.in/",
+    "offline_office": "District Health Office",
+    "application_steps": [
+      "Get hearing screening",
+      "Access treatment for hearing problems",
+      "Get hearing aids if needed",
+      "Access rehabilitation services",
+      "Join support groups"
+    ],
+    "last_date": null,
+    "benefits": "Free hearing screening, treatment, hearing aids, rehabilitation",
+    "eligibility_rules": {
+      "all": []
+    }
+  },
+  {
+    "name": "National Mental Health Rehabilitation Programme",
+    "ministry": "Ministry of Social Justice and Empowerment",
+    "description": "Rehabilitation services for persons with mental illness.",
+    "target_group": "Persons with mental illness",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Disability Certificate", "Medical Reports"],
+    "application_link": "https://disabilityaffairs.gov.in/",
+    "offline_office": "District Disability Rehabilitation Center",
+    "application_steps": [
+      "Get disability assessment",
+      "Apply for disability certificate",
+      "Access rehabilitation services",
+      "Get skill training",
+      "Access employment support"
+    ],
+    "last_date": null,
+    "benefits": "Disability certificate, rehabilitation services, skill training, employment support",
+    "eligibility_rules": {
+      "all": []
+    }
+  },
+  {
+    "name": "National Programme for Rehabilitation of Persons with Disabilities",
+    "ministry": "Ministry of Social Justice and Empowerment",
+    "description": "Comprehensive rehabilitation services for persons with disabilities.",
+    "target_group": "Persons with disabilities",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Disability Certificate", "Medical Reports"],
+    "application_link": "https://disabilityaffairs.gov.in/",
+    "offline_office": "District Disability Rehabilitation Center",
+    "application_steps": [
+      "Get disability assessment",
+      "Apply for disability certificate",
+      "Access rehabilitation services",
+      "Get assistive devices",
+      "Access education and employment support"
+    ],
+    "last_date": null,
+    "benefits": "Disability certificate, assistive devices, education support, employment opportunities",
+    "eligibility_rules": {
+      "all": []
+    }
+  },
+  {
+    "name": "National Trust for the Welfare of Persons with Autism, Cerebral Palsy, Mental Retardation and Multiple Disabilities",
+    "ministry": "Ministry of Social Justice and Empowerment",
+    "description": "Welfare and rehabilitation services for persons with specific disabilities.",
+    "target_group": "Persons with autism, cerebral palsy, mental retardation, multiple disabilities",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Disability Certificate", "Medical Reports"],
+    "application_link": "https://thenationaltrust.gov.in/",
+    "offline_office": "National Trust Centers",
+    "application_steps": [
+      "Get disability assessment",
+      "Apply for National Trust registration",
+      "Access rehabilitation services",
+      "Get respite care services",
+      "Access legal guardianship support"
+    ],
+    "last_date": null,
+    "benefits": "Rehabilitation services, respite care, legal guardianship, financial assistance",
+    "eligibility_rules": {
+      "all": []
+    }
+  },
+  {
+    "name": "Deendayal Disabled Rehabilitation Scheme (DDRS)",
+    "ministry": "Ministry of Social Justice and Empowerment",
+    "description": "Rehabilitation services for persons with disabilities through NGOs.",
+    "target_group": "Persons with disabilities",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Disability Certificate", "Medical Reports"],
+    "application_link": "https://disabilityaffairs.gov.in/",
+    "offline_office": "NGO Centers",
+    "application_steps": [
+      "Identify DDRS supported NGO",
+      "Apply for rehabilitation services",
+      "Get assessment and intervention",
+      "Access assistive devices",
+      "Get skill training"
+    ],
+    "last_date": null,
+    "benefits": "Rehabilitation services, assistive devices, skill training, employment support",
+    "eligibility_rules": {
+      "all": []
+    }
+  },
+  {
+    "name": "Assistance to Disabled Persons for Purchase/Fitting of Aids and Appliances (ADIP)",
+    "ministry": "Ministry of Social Justice and Empowerment",
+    "description": "Financial assistance for purchase of assistive devices.",
+    "target_group": "Persons with disabilities",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Disability Certificate", "Medical Reports", "Income Certificate"],
+    "application_link": "https://disabilityaffairs.gov.in/",
+    "offline_office": "ADIP Camps",
+    "application_steps": [
+      "Apply for ADIP assistance",
+      "Get disability assessment",
+      "Select required assistive device",
+      "Get device fitted and trained",
+      "Follow up for maintenance"
+    ],
+    "last_date": null,
+    "benefits": "Free assistive devices, fitting services, training, maintenance",
+    "eligibility_rules": {
+      "all": []
+    }
+  },
+  {
+    "name": "National Fellowship for Persons with Disabilities",
+    "ministry": "Ministry of Social Justice and Empowerment",
+    "description": "Fellowship for higher education for persons with disabilities.",
+    "target_group": "Students with disabilities",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Disability Certificate", "Educational Documents", "Income Certificate"],
+    "application_link": "https://disabilityaffairs.gov.in/",
+    "offline_office": "University Grants Commission",
+    "application_steps": [
+      "Apply for fellowship through UGC",
+      "Submit disability and educational documents",
+      "Get selection for fellowship",
+      "Receive monthly fellowship amount",
+      "Complete research or higher education"
+    ],
+    "last_date": null,
+    "benefits": "Monthly fellowship for higher education and research",
+    "eligibility_rules": {
+      "all": [
+        {"op": "truthy", "field": "is_student"}
+      ]
+    }
+  },
+  {
+    "name": "Scholarships for Students with Disabilities",
+    "ministry": "Ministry of Social Justice and Empowerment",
+    "description": "Scholarships for pre-matric, post-matric, and higher education.",
+    "target_group": "Students with disabilities",
+    "income_limit": 250000,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Disability Certificate", "Educational Documents", "Income Certificate"],
+    "application_link": "https://scholarships.gov.in/",
+    "offline_office": "Educational Institutions",
+    "application_steps": [
+      "Apply on National Scholarship Portal",
+      "Select disability scholarship scheme",
+      "Submit required documents",
+      "Get scholarship approval",
+      "Receive scholarship amount"
+    ],
+    "last_date": null,
+    "benefits": "Scholarship amount varies from ₹1,000 to ₹5,000 per month",
+    "eligibility_rules": {
+      "all": [
+        {"op": "truthy", "field": "is_student"},
+        {"op": "lt", "field": "income", "value": 250000}
+      ]
+    }
+  },
+  {
+    "name": "National Scheme of Incentive to Girls for Secondary Education (NSIGSE)",
+    "ministry": "Ministry of Education",
+    "description": "Incentive for girls from SC/ST communities to complete secondary education.",
+    "target_group": "SC/ST girl students",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Caste Certificate", "Educational Documents", "Bank Account Details"],
+    "application_link": "https://education.gov.in/",
+    "offline_office": "School/College",
+    "application_steps": [
+      "Apply through educational institution",
+      "Submit caste and educational documents",
+      "Get verified for eligibility",
+      "Receive incentive amount",
+      "Complete secondary education"
+    ],
+    "last_date": null,
+    "benefits": "₹3,000 incentive amount deposited in fixed deposit",
+    "eligibility_rules": {
+      "all": [
+        {"op": "truthy", "field": "is_student"}
+      ]
+    }
+  },
+  {
+    "name": "National Scheme of Incentive to the Girl Child for Higher Education",
+    "ministry": "Ministry of Education",
+    "description": "Incentive for girls from minority communities for higher education.",
+    "target_group": "Minority community girl students",
+    "income_limit": 200000,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Minority Certificate", "Educational Documents", "Income Certificate"],
+    "application_link": "https://education.gov.in/",
+    "offline_office": "Educational Institutions",
+    "application_steps": [
+      "Apply through educational institution",
+      "Submit minority and educational documents",
+      "Get verified for eligibility",
+      "Receive scholarship amount",
+      "Complete higher education"
+    ],
+    "last_date": null,
+    "benefits": "Scholarship amount for tuition fees and maintenance",
+    "eligibility_rules": {
+      "all": [
+        {"op": "truthy", "field": "is_student"},
+        {"op": "lt", "field": "income", "value": 200000}
+      ]
+    }
+  },
+  {
+    "name": "National Merit Scholarship Scheme",
+    "ministry": "Ministry of Education",
+    "description": "Merit-based scholarships for post-matric and higher education.",
+    "target_group": "Meritorious students",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Educational Documents", "Merit Certificates"],
+    "application_link": "https://education.gov.in/",
+    "offline_office": "Educational Institutions",
+    "application_steps": [
+      "Apply based on merit performance",
+      "Submit educational and merit documents",
+      "Get selected for scholarship",
+      "Receive scholarship amount",
+      "Continue education with financial support"
+    ],
+    "last_date": null,
+    "benefits": "Scholarship amount based on merit and course of study",
+    "eligibility_rules": {
+      "all": [
+        {"op": "truthy", "field": "is_student"}
+      ]
+    }
+  },
+  {
+    "name": "National Means-cum-Merit Scholarship Scheme (NMMS)",
+    "ministry": "Ministry of Education",
+    "description": "Scholarship for economically weaker but meritorious students.",
+    "target_group": "Economically weaker meritorious students",
+    "income_limit": 150000,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Educational Documents", "Income Certificate", "Merit Certificates"],
+    "application_link": "https://education.gov.in/",
+    "offline_office": "Schools",
+    "application_steps": [
+      "Apply through school for NMMS exam",
+      "Appear for competitive examination",
+      "Get selected based on merit and income",
+      "Receive scholarship amount",
+      "Continue education with financial support"
+    ],
+    "last_date": null,
+    "benefits": "₹12,000 per annum scholarship amount",
+    "eligibility_rules": {
+      "all": [
+        {"op": "truthy", "field": "is_student"},
+        {"op": "lt", "field": "income", "value": 150000}
+      ]
+    }
+  },
+  {
+    "name": "Central Sector Scheme of Scholarship for College and University Students",
+    "ministry": "Ministry of Education",
+    "description": "Merit-based scholarships for college and university students.",
+    "target_group": "College and university students",
+    "income_limit": 800000,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Educational Documents", "Income Certificate", "Merit Certificates"],
+    "application_link": "https://education.gov.in/",
+    "offline_office": "Colleges and Universities",
+    "application_steps": [
+      "Apply through college/university",
+      "Submit educational and income documents",
+      "Get selected based on merit and income",
+      "Receive scholarship amount",
+      "Complete higher education"
+    ],
+    "last_date": null,
+    "benefits": "₹10,000 to ₹20,000 per annum scholarship amount",
+    "eligibility_rules": {
+      "all": [
+        {"op": "truthy", "field": "is_student"},
+        {"op": "lt", "field": "income", "value": 800000}
+      ]
+    }
+  },
+  {
+    "name": "AICTE Pragati Scholarship Scheme for Girls",
+    "ministry": "Ministry of Education",
+    "description": "Scholarship for girl students in technical education.",
+    "target_group": "Girl students in technical education",
+    "income_limit": 800000,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Educational Documents", "Income Certificate", "Admission Proof"],
+    "application_link": "https://www.aicte-india.org/",
+    "offline_office": "Technical Institutions",
+    "application_steps": [
+      "Apply through AICTE portal",
+      "Submit educational and income documents",
+      "Get selected based on merit and income",
+      "Receive scholarship amount",
+      "Complete technical education"
+    ],
+    "last_date": null,
+    "benefits": "₹30,000 per annum scholarship amount",
+    "eligibility_rules": {
+      "all": [
+        {"op": "truthy", "field": "is_student"},
+        {"op": "lt", "field": "income", "value": 800000}
+      ]
+    }
+  },
+  {
+    "name": "AICTE Saksham Scholarship Scheme for Differently Abled Students",
+    "ministry": "Ministry of Education",
+    "description": "Scholarship for differently abled students in technical education.",
+    "target_group": "Differently abled students in technical education",
+    "income_limit": 800000,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Disability Certificate", "Educational Documents", "Income Certificate"],
+    "application_link": "https://www.aicte-india.org/",
+    "offline_office": "Technical Institutions",
+    "application_steps": [
+      "Apply through AICTE portal",
+      "Submit disability and educational documents",
+      "Get selected based on merit and disability",
+      "Receive scholarship amount",
+      "Complete technical education"
+    ],
+    "last_date": null,
+    "benefits": "₹30,000 per annum scholarship amount",
+    "eligibility_rules": {
+      "all": [
+        {"op": "truthy", "field": "is_student"},
+        {"op": "lt", "field": "income", "value": 800000}
+      ]
+    }
+  },
+  {
+    "name": "National Overseas Scholarship Scheme",
+    "ministry": "Ministry of Social Justice and Empowerment",
+    "description": "Scholarship for higher studies abroad for SC/ST students.",
+    "target_group": "SC/ST students for overseas studies",
+    "income_limit": 600000,
+    "age_min": null,
+    "age_max": 35,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Caste Certificate", "Educational Documents", "Income Certificate", "Admission Offer"],
+    "application_link": "https://www.mosje.gov.in/",
+    "offline_office": "Ministry of Social Justice and Empowerment",
+    "application_steps": [
+      "Apply through ministry portal",
+      "Submit caste and educational documents",
+      "Get admission in foreign university",
+      "Get selected for scholarship",
+      "Study abroad with financial support"
+    ],
+    "last_date": null,
+    "benefits": "Tuition fees, living expenses, and other allowances for overseas studies",
+    "eligibility_rules": {
+      "all": [
+        {"op": "truthy", "field": "is_student"},
+        {"op": "lt", "field": "income", "value": 600000},
+        {"op": "lte", "field": "age", "value": 35}
+      ]
+    }
+  },
+  {
+    "name": "Rajiv Gandhi National Fellowship Scheme",
+    "ministry": "Ministry of Social Justice and Empowerment",
+    "description": "Fellowship for M.Phil and Ph.D. studies for SC/ST students.",
+    "target_group": "SC/ST students for higher research",
+    "income_limit": null,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Caste Certificate", "Educational Documents", "Admission Proof"],
+    "application_link": "https://www.ugc.ac.in/",
+    "offline_office": "University Grants Commission",
+    "application_steps": [
+      "Apply through UGC portal",
+      "Submit caste and educational documents",
+      "Get admission for M.Phil/Ph.D.",
+      "Get selected for fellowship",
+      "Complete research with financial support"
+    ],
+    "last_date": null,
+    "benefits": "Monthly fellowship amount for M.Phil and Ph.D. studies",
+    "eligibility_rules": {
+      "all": [
+        {"op": "truthy", "field": "is_student"}
+      ]
+    }
+  },
+  {
+    "name": "Maulana Azad National Fellowship Scheme",
+    "ministry": "Ministry of Minority Affairs",
+    "description": "Fellowship for M.Phil and Ph.D. studies for minority students.",
+    "target_group": "Minority students for higher research",
+    "income_limit": 250000,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Minority Certificate", "Educational Documents", "Income Certificate"],
+    "application_link": "https://minorityaffairs.gov.in/",
+    "offline_office": "University Grants Commission",
+    "application_steps": [
+      "Apply through UGC portal",
+      "Submit minority and educational documents",
+      "Get admission for M.Phil/Ph.D.",
+      "Get selected for fellowship",
+      "Complete research with financial support"
+    ],
+    "last_date": null,
+    "benefits": "Monthly fellowship amount for M.Phil and Ph.D. studies",
+    "eligibility_rules": {
+      "all": [
+        {"op": "truthy", "field": "is_student"},
+        {"op": "lt", "field": "income", "value": 250000}
+      ]
+    }
+  },
+  {
+    "name": "National Scholarship Scheme for Persons with Disabilities",
+    "ministry": "Ministry of Social Justice and Empowerment",
+    "description": "Scholarship for students with disabilities for higher education.",
+    "target_group": "Students with disabilities",
+    "income_limit": 250000,
+    "age_min": null,
+    "age_max": null,
+    "state_availability": null,
+    "required_documents": ["Aadhaar Card", "Disability Certificate", "Educational Documents", "Income Certificate"],
+    "application_link": "https://disabilityaffairs.gov.in/",
+    "offline_office": "Educational Institutions",
+    "application_steps": [
+      "Apply through National Scholarship Portal",
+      "Submit disability and educational documents",
+      "Get selected for scholarship",
+      "Receive scholarship amount",
+      "Complete education with financial support"
+    ],
+    "last_date": null,
+    "benefits": "Scholarship amount for tuition fees and maintenance",
+    "eligibility_rules": {
+      "all": [
+        {"op": "truthy", "field": "is_student"},
+        {"op": "lt", "field": "income", "value": 250000}
+      ]
+    }
+  }
+]

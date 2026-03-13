@@ -1,10 +1,11 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Search, Filter, X, SlidersHorizontal } from 'lucide-react';
 import SchemeCard from '@/components/SchemeCard';
-import { SCHEMES, CATEGORIES, INDIAN_STATES } from '@/lib/schemes-data';
+import { CATEGORIES, INDIAN_STATES } from '@/lib/schemes-data';
 import { useTheme } from '@/components/ThemeProvider';
+import { listSchemes } from '@/lib/api';
 
 const INCOME_RANGES = [
   { value: 'any', label: 'Any Income' },
@@ -23,27 +24,48 @@ export default function SchemesPage() {
   const [state, setState] = useState('All States');
   const [income, setIncome] = useState('any');
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const [schemes, setSchemes] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  // Load schemes from API on component mount
+  useEffect(() => {
+    const loadSchemes = async () => {
+      setLoading(true);
+      try {
+        const data = await listSchemes();
+        setSchemes(data);
+      } catch (error) {
+        console.error('Error loading schemes:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadSchemes();
+  }, []);
 
   const filtered = useMemo(() => {
-    return SCHEMES.filter(s => {
+    return schemes.filter((s: any) => {
       const matchesSearch =
         !search ||
         s.name.toLowerCase().includes(search.toLowerCase()) ||
-        s.description.toLowerCase().includes(search.toLowerCase()) ||
-        (s.nameHi && s.nameHi.includes(search));
+        s.description.toLowerCase().includes(search.toLowerCase());
 
-      const matchesCategory = category === 'all' || s.category === category;
-      const matchesState = state === 'All States' || s.state === 'All India' || s.state === state;
+      const matchesCategory = category === 'all' || 
+        (s.target_group && s.target_group.toLowerCase().includes(category.toLowerCase()));
+      
+      const matchesState = state === 'All States' || 
+        !s.state_availability || 
+        s.state_availability.length === 0 || 
+        s.state_availability.some((st: string) => st.toLowerCase() === state.toLowerCase());
 
       return matchesSearch && matchesCategory && matchesState;
     });
-  }, [search, category, state, income]);
+  }, [search, category, state, schemes]);
 
   const clearFilters = () => {
     setSearch('');
     setCategory('all');
     setState('All States');
-    setIncome('any');
   };
 
   const hasActiveFilters = category !== 'all' || state !== 'All States' || income !== 'any' || search;
@@ -58,8 +80,8 @@ export default function SchemesPage() {
           </h1>
           <p className="text-gray-500 dark:text-gray-400 mb-6">
             {hi
-              ? `${SCHEMES.length}+ योजनाएं उपलब्ध • खोजें और जानें`
-              : `${SCHEMES.length}+ schemes available • Search, filter, and discover`}
+              ? `${schemes.length}+ योजनाएं उपलब्ध • खोजें और जानें`
+              : `${schemes.length}+ schemes available • Search, filter, and discover`}
           </p>
 
           {/* Search bar */}
@@ -174,7 +196,14 @@ export default function SchemesPage() {
           </p>
         </div>
 
-        {filtered.length === 0 ? (
+        {loading ? (
+          <div className="text-center py-20">
+            <div className="text-5xl mb-4">⏳</div>
+            <h3 className="text-lg font-bold text-gray-700 dark:text-gray-300 mb-2">
+              {hi ? 'योजनाएं लोड हो रही हैं...' : 'Loading schemes...'}
+            </h3>
+          </div>
+        ) : filtered.length === 0 ? (
           <div className="text-center py-20">
             <div className="text-5xl mb-4">🔍</div>
             <h3 className="text-lg font-bold text-gray-700 dark:text-gray-300 mb-2">

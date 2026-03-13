@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
   ArrowRight,
@@ -20,7 +20,7 @@ import {
 } from 'lucide-react';
 import { useTheme } from '@/components/ThemeProvider';
 import SchemeCard from '@/components/SchemeCard';
-import { SCHEMES } from '@/lib/schemes-data';
+import { listSchemes } from '@/lib/api';
 
 const stats = [
   { value: '1000+', label: 'Government Schemes', labelHi: 'सरकारी योजनाएं', icon: '📋' },
@@ -86,6 +86,25 @@ export default function HomePage() {
   const { lang } = useTheme();
   const [query, setQuery] = useState('');
   const [listening, setListening] = useState(false);
+  const [schemes, setSchemes] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  // Load schemes from API on component mount
+  useEffect(() => {
+    const loadSchemes = async () => {
+      setLoading(true);
+      try {
+        const data = await listSchemes();
+        setSchemes(data);
+      } catch (error) {
+        console.error('Error loading schemes:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadSchemes();
+  }, []);
+
   const hi = lang === 'hi';
 
   const handleVoice = () => {
@@ -267,7 +286,7 @@ export default function HomePage() {
             </Link>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {SCHEMES.slice(0, 6).map(scheme => (
+            {schemes.slice(0, 6).map((scheme: any) => (
               <SchemeCard key={scheme.id} scheme={scheme} lang={lang} />
             ))}
           </div>

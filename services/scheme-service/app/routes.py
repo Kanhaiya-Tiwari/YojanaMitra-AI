@@ -27,7 +27,7 @@ def healthz() -> dict:
 def list_schemes(
     q: str | None = Query(default=None, description="Search by scheme name/description"),
     state: str | None = Query(default=None, description="State filter (case-insensitive)"),
-    limit: int = Query(default=50, ge=1, le=200),
+    limit: int = Query(default=200, ge=1, le=200),
     offset: int = Query(default=0, ge=0),
     session: Session = Depends(get_session),
 ) -> list[SchemeOut]:
@@ -99,7 +99,7 @@ def update_scheme(scheme_id: UUID, payload: SchemeUpdate, session: Session = Dep
 
 @router.post("/admin/seed", dependencies=[Depends(require_admin)])
 def seed_default(session: Session = Depends(get_session)) -> dict:
-    seed_path = Path(__file__).resolve().parent.parent / "data" / "comprehensive_schemes.json"
+    seed_path = Path(__file__).resolve().parent.parent / "data" / "comprehensive_schemes_100.json"
     result = seed_from_file(session, seed_path)
     session.commit()
     return {"ok": True, **result}

@@ -21,3 +21,9 @@ export async function listSchemes(q?: string, state?: string) {
   return res.json();
 }
 
+export async function getScheme(id: string) {
+  const res = await fetch(`${API_BASE}/api/v1/schemes/${id}`);
+  if (!res.ok) throw new Error(`Scheme failed: ${res.status}`);
+  return res.json();
+}
+
