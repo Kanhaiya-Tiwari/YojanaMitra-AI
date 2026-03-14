@@ -37,5 +37,3 @@ jobs:
                     ${{ vars.DOCKERHUB_USER }}/yojanamitra-${{ matrix.service }}:${{ github.ref_name }}
                     ${{ vars.DOCKERHUB_USER }}/yojanamitra-${{ matrix.service }}:latest
                     ${{ vars.DOCKERHUB_USER }}/yojanamitra-${{ matrix.service }}:${{ github.sha}}
-                cache-from: type=gha
-                cache-to: type=gha,mode=max
