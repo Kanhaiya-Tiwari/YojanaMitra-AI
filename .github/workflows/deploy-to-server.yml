@@ -1,150 +1,70 @@
-
 # this will deploy the safe / secure / tested app to Prod server
 name: Deploy To Server
 
-on: 
-    workflow_call:
-
+on:
+  workflow_call:
 
 jobs:
-    deploy:
-        runs-on: ubuntu-latest
-        env:
-            DOCKERHUB_USER: ${{ vars.DOCKERHUB_USER }}
-            DOCKER_TAG: ${{ github.sha }}
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      DOCKERHUB_USER: ${{ vars.DOCKERHUB_USER }}
+      DOCKER_TAG: ${{ github.sha }}
 
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v4
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-            - name: SSH to Prod server & create app folder
-              uses: appleboy/ssh-action@v1.0.3
-              with:
-                host: ${{ secrets.EC2_SSH_HOST }}
-                username: ${{ secrets.EC2_SSH_USER }}
-                key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
-                script: |
-                 echo "Installing required packages & folders"
-                 sudo apt-get update && sudo apt-get install docker.io docker-compose-v2 -y
-                 sudo usermod -aG docker $USER
-                 mkdir -p devops
-                 # Remove existing docker-compose.yml if it's a directory
-                 if [ -d ~/devops/docker-compose.yml ]; then
-                   echo "Removing existing docker-compose.yml directory"
-                   rm -rf ~/devops/docker-compose.yml
-                 fi
+      - name: SSH to Prod server & create app folder
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_SSH_HOST }}
+          username: ${{ secrets.EC2_SSH_USER }}
+          key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+          script: |
+            echo "Installing required packages & folders"
+            sudo apt-get update && sudo apt-get install docker.io docker-compose-v2 -y
+            sudo usermod -aG docker $USER
+            mkdir -p devops
+            # Remove existing docker-compose.yml if it's a directory
+            if [ -d ~/devops/docker-compose.yml ]; then
+              echo "Removing existing docker-compose.yml directory"
+              rm -rf ~/devops/docker-compose.yml
+            fi
 
-            - name: Copy the docker-compose file
-              uses: appleboy/scp-action@v1
-              with:
-                host: ${{ secrets.EC2_SSH_HOST }}
-                username: ${{ secrets.EC2_SSH_USER }}
-                key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
-                source: docker-compose.prod.yml
-                target: ~/devops/docker-compose.yml
-                
-            - name: SSH to Prod server & run the app
-              uses: appleboy/ssh-action@v1.0.3
-              with:
-                host: ${{ secrets.EC2_SSH_HOST }}
-                username: ${{ secrets.EC2_SSH_USER }}
-                key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
-                script: |
-                 echo "Running App"
-                 
-                 export DOCKERHUB_USER=${{ vars.DOCKERHUB_USER }}
-                 export DOCKER_TAG=${{ github.sha }}
-                 echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login --username ${{ vars.DOCKERHUB_USER }} --password-stdin
-                 
-                 # Cleanup all docker-compose files and directories
-                 echo "Cleaning up existing docker-compose files..."
-                 rm -rf ~/devops/docker-compose.yml
-                 rm -rf ~/devops/docker-compose.yml.tmp
-                 rm -rf ~/devops/docker-compose.prod.yml
-                 
-                 # Manually create the docker-compose.yml file
-                 echo "Creating docker-compose.yml file directly..."
-                 cat > ~/devops/docker-compose.yml << 'EOF'
-version: '3.8'
+      - name: Copy the docker-compose file
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.EC2_SSH_HOST }}
+          username: ${{ secrets.EC2_SSH_USER }}
+          key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+          source: docker-compose.prod.yml
+          target: ~/devops/docker-compose.yml
 
-services:
-  frontend:
-    image: ${DOCKERHUB_USER}/yojanamitra-frontend:${DOCKER_TAG}
-    ports:
-      - "3000:3000"
-    environment:
-      - NODE_ENV=production
-      - NEXT_PUBLIC_API_URL=http://localhost:8000
-    depends_on:
-      - api-gateway
+      - name: SSH to Prod server & run the app
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_SSH_HOST }}
+          username: ${{ secrets.EC2_SSH_USER }}
+          key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+          script: |
+            echo "Running App"
 
-  api-gateway:
-    image: ${DOCKERHUB_USER}/yojanamitra-api-gateway:${DOCKER_TAG}
-    ports:
-      - "8000:8000"
-    environment:
-      - DATABASE_URL=postgresql://postgres:password@postgres:5432/yojanamitra
-      - JWT_SECRET=your-jwt-secret-key
-    depends_on:
-      - postgres
+            export DOCKERHUB_USER=${{ vars.DOCKERHUB_USER }}
+            export DOCKER_TAG=${{ github.sha }}
+            echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login --username ${{ vars.DOCKERHUB_USER }} --password-stdin
 
-  postgres:
-    image: postgres:15
-    environment:
-      - POSTGRES_DB=yojanamitra
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=password
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
+            # Cleanup any temporary docker-compose files
+            echo "Cleaning up temporary docker-compose files..."
+            rm -rf ~/devops/docker-compose.yml.tmp
 
-  scheme-service:
-    image: ${DOCKERHUB_USER}/yojanamitra-scheme-service:${DOCKER_TAG}
-    environment:
-      - DATABASE_URL=postgresql://postgres:password@postgres:5432/yojanamitra
-    depends_on:
-      - postgres
-
-  user-service:
-    image: ${DOCKERHUB_USER}/yojanamitra-user-service:${DOCKER_TAG}
-    environment:
-      - DATABASE_URL=postgresql://postgres:password@postgres:5432/yojanamitra
-    depends_on:
-      - postgres
-
-  chatbot-service:
-    image: ${DOCKERHUB_USER}/yojanamitra-chatbot-service:${DOCKER_TAG}
-    environment:
-      - DATABASE_URL=postgresql://postgres:password@postgres:5432/yojanamitra
-    depends_on:
-      - postgres
-
-  eligibility-service:
-    image: ${DOCKERHUB_USER}/yojanamitra-eligibility-service:${DOCKER_TAG}
-    environment:
-      - DATABASE_URL=postgresql://postgres:password@postgres:5432/yojanamitra
-    depends_on:
-      - postgres
-
-  notification-service:
-    image: ${DOCKERHUB_USER}/yojanamitra-notification-service:${DOCKER_TAG}
-    environment:
-      - DATABASE_URL=postgresql://postgres:password@postgres:5432/yojanamitra
-    depends_on:
-      - postgres
-
-volumes:
-  postgres_data:
-EOF
-                 
-                 # Verify and deploy
-                 if [ -f ~/devops/docker-compose.yml ]; then
-                   echo "✅ docker-compose.yml file created successfully"
-                   echo "File size: $(wc -l < ~/devops/docker-compose.yml) lines"
-                   cd ~/devops && docker compose down && docker compose up -d --force-recreate --pull always
-                 else
-                   echo "❌ Failed to create docker-compose.yml file"
-                   ls -la ~/devops/
-                   exit 1
-                 fi
+            # Ensure the docker-compose file exists (copied earlier)
+            if [ -f ~/devops/docker-compose.yml ]; then
+              echo "✅ docker-compose.yml file created successfully"
+              echo "File size: $(wc -l < ~/devops/docker-compose.yml) lines"
+              cd ~/devops && docker compose down && docker compose up -d --force-recreate --pull always
+            else
+              echo "❌ Failed to create docker-compose.yml file"
+              ls -la ~/devops/
+              exit 1
+            fi
