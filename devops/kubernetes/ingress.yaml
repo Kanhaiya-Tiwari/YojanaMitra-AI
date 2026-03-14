@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: yojanamitra-ingress
-  namespace: yojanamitra
+  namespace: yojanamitrA
 spec:
   rules:
     - host: yojanamitra.local
