@@ -5,17 +5,46 @@ on:
   workflow_call:
 
 jobs:
-   validate-dockerfile:
+   validate-dockerfiles:
      runs-on: ubuntu-latest
      steps:
        - name: Checkout code
          uses: actions/checkout@v4
 
-       - name: Validate Dockerfile
+       - name: Validate Frontend Dockerfile
          uses: hadolint/hadolint-action@v3.1.0
          with:
-          # Specify the path to the Dockerfile to lint (default is Dockerfile)
-           dockerfile: Dockerfile  
+           dockerfile: devops/dockerfiles/frontend.Dockerfile
+
+       - name: Validate API Gateway Dockerfile
+         uses: hadolint/hadolint-action@v3.1.0
+         with:
+           dockerfile: devops/dockerfiles/api-gateway.Dockerfile
+
+       - name: Validate Scheme Service Dockerfile
+         uses: hadolint/hadolint-action@v3.1.0
+         with:
+           dockerfile: devops/dockerfiles/scheme-service.Dockerfile
+
+       - name: Validate User Service Dockerfile
+         uses: hadolint/hadolint-action@v3.1.0
+         with:
+           dockerfile: devops/dockerfiles/user-service.Dockerfile
+
+       - name: Validate Chatbot Service Dockerfile
+         uses: hadolint/hadolint-action@v3.1.0
+         with:
+           dockerfile: devops/dockerfiles/chatbot-service.Dockerfile
+
+       - name: Validate Eligibility Service Dockerfile
+         uses: hadolint/hadolint-action@v3.1.0
+         with:
+           dockerfile: devops/dockerfiles/eligibility-service.Dockerfile
+
+       - name: Validate Notification Service Dockerfile
+         uses: hadolint/hadolint-action@v3.1.0
+         with:
+           dockerfile: devops/dockerfiles/notification-service.Dockerfile  
     
 
 
