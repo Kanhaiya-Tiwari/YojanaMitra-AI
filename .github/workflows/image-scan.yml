@@ -36,9 +36,13 @@ jobs:
           format: 'sarif'
           output: 'trivy-results-${{ matrix.service }}.sarif'
       
-      - name: Upload Trivy Scan Results to GitHub Security Tab
-        uses: github/codeql-action/upload-sarif@v4
-        if: always() && github.ref == 'refs/heads/master' && hashFiles('trivy-results-${{ matrix.service }}.sarif') != ''
-        with:
-          sarif_file: 'trivy-results-${{ matrix.service }}.sarif'
+      - name: Display Scan Summary
+        run: |
+          echo "=== Trivy Scan Results for ${{ matrix.service }} ==="
+          if [ -f 'trivy-results-${{ matrix.service }}.sarif' ]; then
+            echo "✅ SARIF file generated successfully"
+            echo "📊 Scan completed for image: ${{ vars.DOCKERHUB_USER }}/yojanamitra-${{ matrix.service }}:${{ github.sha }}"
+          else
+            echo "❌ No SARIF file generated"
+          fi
               
