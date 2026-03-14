@@ -32,15 +32,6 @@ jobs:
               rm -rf ~/devops/docker-compose.yml
             fi
 
-      - name: Copy the docker-compose file
-        uses: appleboy/scp-action@v1
-        with:
-          host: ${{ secrets.EC2_SSH_HOST }}
-          username: ${{ secrets.EC2_SSH_USER }}
-          key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
-          source: docker-compose.prod.yml
-          target: ~/devops/docker-compose.yml
-
       - name: SSH to Prod server & run the app
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -54,14 +45,8 @@ jobs:
             export DOCKER_TAG=${{ github.sha }}
             echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login --username ${{ vars.DOCKERHUB_USER }} --password-stdin
 
-            # Cleanup docker-compose.yml if it's a directory (after SCP)
-            if [ -d ~/devops/docker-compose.yml ]; then
-              echo "Removing docker-compose.yml directory created by SCP"
-              rm -rf ~/devops/docker-compose.yml
-            fi
-
-            # Copy the file manually since SCP created a directory
-            echo "Creating docker-compose.yml file manually..."
+            # Create docker-compose.yml file
+            echo "Creating docker-compose.yml file..."
             cat > ~/devops/docker-compose.yml << 'EOF'
             version: '3.8'
             
