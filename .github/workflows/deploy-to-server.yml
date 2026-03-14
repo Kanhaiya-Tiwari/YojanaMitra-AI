@@ -51,8 +51,23 @@ jobs:
                 key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
                 script: |
                  echo "Running App"
-                
+                 
                  export DOCKERHUB_USER=${{ vars.DOCKERHUB_USER }}
                  export DOCKER_TAG=${{ github.sha }}
                  echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login --username ${{ vars.DOCKERHUB_USER }} --password-stdin
-                 cd ~/devops && docker compose down && docker compose up -d --force-recreate --pull always
+                 
+                 # Cleanup docker-compose.yml if it's a directory
+                 if [ -d ~/devops/docker-compose.yml ]; then
+                   echo "Removing existing docker-compose.yml directory"
+                   rm -rf ~/devops/docker-compose.yml
+                 fi
+                 
+                 # Verify docker-compose.yml is a file
+                 if [ -f ~/devops/docker-compose.yml ]; then
+                   echo " docker-compose.yml file exists"
+                   cd ~/devops && docker compose down && docker compose up -d --force-recreate --pull always
+                 else
+                   echo " docker-compose.yml file not found"
+                   ls -la ~/devops/
+                   exit 1
+                 fi
