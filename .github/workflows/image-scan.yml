@@ -16,6 +16,11 @@ jobs:
           - eligibility-service
           - notification-service
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
@@ -33,7 +38,7 @@ jobs:
       
       - name: Upload Trivy Scan Results to GitHub Security Tab
         uses: github/codeql-action/upload-sarif@v4
-        if: always() && github.event_name != 'pull_request'
+        if: always() && github.ref == 'refs/heads/master' && hashFiles('trivy-results-${{ matrix.service }}.sarif') != ''
         with:
           sarif_file: 'trivy-results-${{ matrix.service }}.sarif'
               
