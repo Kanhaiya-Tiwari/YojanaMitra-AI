@@ -1,0 +1,21 @@
+# package - issues and vulnerabilities (scan)
+
+name: Dependency Scan
+
+on:
+  workflow_call:
+
+jobs:
+  dependencies-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: code-checkout
+        uses: actions/checkout@v4
+
+      - name: pip dependencies audit
+        uses: pypa/gh-action-pip-audit@v1.1.0
+        with:
+          # Specify the requirements file to audit
+          inputs: requirements.txt
+          # Fail the build if vulnerabilities are found (default behavior)
+          internal-be-careful-allow-failure: false
