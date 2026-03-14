@@ -1,5 +1,5 @@
-# ── Shared library (editable install) ──────────────────────────────────────
--e services/_shared
+# ── Build dependencies ────────────────────────────────────────────────────────
+setuptools>=68.0.0
 
 # ── Shared lib dependencies ─────────────────────────────────────────────────
 PyJWT>=2.8.0

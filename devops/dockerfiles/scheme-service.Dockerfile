@@ -10,8 +10,7 @@ COPY services/_shared /app/services/_shared
 COPY services/scheme-service /app/services/scheme-service
 COPY services/scheme-service/data /app/services/scheme-service/data
 
-RUN pip install --no-cache-dir --timeout=120 --retries=5 -r /app/requirements.txt && \
-    pip install --no-cache-dir --timeout=120 --retries=5 -e /app/services/_shared
+RUN pip install --no-cache-dir --timeout=120 --retries=5 -r /app/requirements.txt
 
 EXPOSE 8000
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
