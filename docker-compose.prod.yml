@@ -24,9 +24,7 @@ services:
       retries: 5
 
   scheme-service:
-    build:
-      context: .
-      dockerfile: devops/dockerfiles/scheme-service.Dockerfile
+    image: ${DOCKERHUB_USER}/yojanamitra-scheme-service:${DOCKER_TAG}
     env_file: .env
     depends_on:
       postgres:
@@ -39,9 +37,7 @@ services:
       retries: 3
 
   user-service:
-    build:
-      context: .
-      dockerfile: devops/dockerfiles/user-service.Dockerfile
+    image: ${DOCKERHUB_USER}/yojanamitra-user-service:${DOCKER_TAG}
     env_file: .env
     depends_on:
       postgres:
@@ -54,9 +50,7 @@ services:
       retries: 3
 
   eligibility-service:
-    build:
-      context: .
-      dockerfile: devops/dockerfiles/eligibility-service.Dockerfile
+    image: ${DOCKERHUB_USER}/yojanamitra-eligibility-service:${DOCKER_TAG}
     env_file: .env
     depends_on:
       postgres:
@@ -71,9 +65,7 @@ services:
       retries: 3
 
   chatbot-service:
-    build:
-      context: .
-      dockerfile: devops/dockerfiles/chatbot-service.Dockerfile
+    image: ${DOCKERHUB_USER}/yojanamitra-chatbot-service:${DOCKER_TAG}
     env_file: .env
     depends_on:
       eligibility-service:
@@ -86,9 +78,7 @@ services:
       retries: 3
 
   notification-service:
-    build:
-      context: .
-      dockerfile: devops/dockerfiles/notification-service.Dockerfile
+    image: ${DOCKERHUB_USER}/yojanamitra-notification-service:${DOCKER_TAG}
     env_file: .env
     depends_on:
       chatbot-service:
@@ -101,9 +91,7 @@ services:
       retries: 3
 
   api-gateway:
-    build:
-      context: .
-      dockerfile: devops/dockerfiles/api-gateway.Dockerfile
+    image: ${DOCKERHUB_USER}/yojanamitra-api-gateway:${DOCKER_TAG}
     env_file: .env
     depends_on:
       user-service:
@@ -124,9 +112,7 @@ services:
       retries: 3
 
   frontend:
-    build:
-      context: ./frontend
-      dockerfile: ../devops/dockerfiles/frontend.Dockerfile
+    image: ${DOCKERHUB_USER}/yojanamitra-frontend:${DOCKER_TAG}
     env_file: .env
     depends_on:
       api-gateway:

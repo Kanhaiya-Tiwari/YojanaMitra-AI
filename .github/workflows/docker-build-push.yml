@@ -2,12 +2,22 @@ name: Docker Build & Push
 
 on: 
   workflow_call:
+
 jobs:
     build-and-push:
         runs-on: ubuntu-latest
+        strategy:
+          matrix:
+            service:
+              - frontend
+              - api-gateway
+              - scheme-service
+              - user-service
+              - chatbot-service
+              - eligibility-service
+              - notification-service
 
         steps:
-
             - name: Code Checkout
               uses: actions/checkout@v4
 
@@ -17,12 +27,15 @@ jobs:
                 username: ${{ vars.DOCKERHUB_USER }}
                 password: ${{ secrets.DOCKERHUB_TOKEN }}
                 
-            - name: Build & Push to Docker Hub
+            - name: Build & Push ${{ matrix.service }} to Docker Hub
               uses: docker/build-push-action@v6
               with:
                 context: .
+                file: ./devops/dockerfiles/${{ matrix.service }}.Dockerfile
                 push: true
                 tags: |
-                    ${{ vars.DOCKERHUB_USER }}/github-actions-app:${{ github.ref_name }}
-                    ${{ vars.DOCKERHUB_USER }}/github-actions-app:latest
-                    ${{ vars.DOCKERHUB_USER }}/github-actions-app:${{ github.sha}}
+                    ${{ vars.DOCKERHUB_USER }}/yojanamitra-${{ matrix.service }}:${{ github.ref_name }}
+                    ${{ vars.DOCKERHUB_USER }}/yojanamitra-${{ matrix.service }}:latest
+                    ${{ vars.DOCKERHUB_USER }}/yojanamitra-${{ matrix.service }}:${{ github.sha}}
+                cache-from: type=gha
+                cache-to: type=gha,mode=max
