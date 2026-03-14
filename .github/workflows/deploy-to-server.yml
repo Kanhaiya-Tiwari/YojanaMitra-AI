@@ -54,11 +54,89 @@ jobs:
             export DOCKER_TAG=${{ github.sha }}
             echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login --username ${{ vars.DOCKERHUB_USER }} --password-stdin
 
-            # Cleanup any temporary docker-compose files
-            echo "Cleaning up temporary docker-compose files..."
-            rm -rf ~/devops/docker-compose.yml.tmp
+            # Cleanup docker-compose.yml if it's a directory (after SCP)
+            if [ -d ~/devops/docker-compose.yml ]; then
+              echo "Removing docker-compose.yml directory created by SCP"
+              rm -rf ~/devops/docker-compose.yml
+            fi
 
-            # Ensure the docker-compose file exists (copied earlier)
+            # Copy the file manually since SCP created a directory
+            echo "Creating docker-compose.yml file manually..."
+            cat > ~/devops/docker-compose.yml << 'EOF'
+version: '3.8'
+
+services:
+  frontend:
+    image: ${DOCKERHUB_USER}/yojanamitra-frontend:${DOCKER_TAG}
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+    depends_on:
+      - api-gateway
+
+  api-gateway:
+    image: ${DOCKERHUB_USER}/yojanamitra-api-gateway:${DOCKER_TAG}
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@postgres:5432/yojanamitra
+      - JWT_SECRET=your-jwt-secret-key
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:15
+    environment:
+      - POSTGRES_DB=yojanamitra
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  scheme-service:
+    image: ${DOCKERHUB_USER}/yojanamitra-scheme-service:${DOCKER_TAG}
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@postgres:5432/yojanamitra
+    depends_on:
+      - postgres
+
+  user-service:
+    image: ${DOCKERHUB_USER}/yojanamitra-user-service:${DOCKER_TAG}
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@postgres:5432/yojanamitra
+    depends_on:
+      - postgres
+
+  chatbot-service:
+    image: ${DOCKERHUB_USER}/yojanamitra-chatbot-service:${DOCKER_TAG}
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@postgres:5432/yojanamitra
+    depends_on:
+      - postgres
+
+  eligibility-service:
+    image: ${DOCKERHUB_USER}/yojanamitra-eligibility-service:${DOCKER_TAG}
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@postgres:5432/yojanamitra
+    depends_on:
+      - postgres
+
+  notification-service:
+    image: ${DOCKERHUB_USER}/yojanamitra-notification-service:${DOCKER_TAG}
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@postgres:5432/yojanamitra
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:
+EOF
+
+            # Verify and deploy
             if [ -f ~/devops/docker-compose.yml ]; then
               echo "✅ docker-compose.yml file created successfully"
               echo "File size: $(wc -l < ~/devops/docker-compose.yml) lines"
