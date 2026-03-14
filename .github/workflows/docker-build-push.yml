@@ -40,8 +40,6 @@ jobs:
                 tags: |
                     ${{ vars.DOCKERHUB_USER }}/yojanamitra-${{ matrix.service }}:${{ github.sha }}
                     ${{ vars.DOCKERHUB_USER }}/yojanamitra-${{ matrix.service }}:latest
-              continue-on-error: true
-
     build-frontend:
         runs-on: ubuntu-latest
         steps:
@@ -81,4 +79,3 @@ jobs:
                 tags: |
                     ${{ vars.DOCKERHUB_USER }}/yojanamitra-frontend:${{ github.sha }}
                     ${{ vars.DOCKERHUB_USER }}/yojanamitra-frontend:latest
-              continue-on-error: true
