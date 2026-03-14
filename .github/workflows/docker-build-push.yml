@@ -49,6 +49,20 @@ jobs:
                 username: ${{ vars.DOCKERHUB_USER }}
                 password: ${{ secrets.DOCKERHUB_TOKEN }}
                 
+            - name: Debug - List frontend directory
+              run: |
+                echo "Frontend directory contents:"
+                ls -la frontend/
+                echo "Checking for package.json:"
+                if [ -f frontend/package.json ]; then
+                  echo "package.json found in frontend/"
+                  head -5 frontend/package.json
+                else
+                  echo "package.json NOT found in frontend/"
+                  echo "Root directory contents:"
+                  ls -la
+                fi
+                
             - name: Build & Push frontend to Docker Hub
               uses: docker/build-push-action@v6
               with:
