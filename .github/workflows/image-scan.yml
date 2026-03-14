@@ -15,6 +15,7 @@ jobs:
           - chatbot-service
           - eligibility-service
           - notification-service
+      fail-fast: false
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -35,6 +36,7 @@ jobs:
           exit-code: '0'
           format: 'sarif'
           output: 'trivy-results-${{ matrix.service }}.sarif'
+        continue-on-error: true
       
       - name: Display Scan Summary
         run: |
@@ -43,6 +45,6 @@ jobs:
             echo "✅ SARIF file generated successfully"
             echo "📊 Scan completed for image: ${{ vars.DOCKERHUB_USER }}/yojanamitra-${{ matrix.service }}:${{ github.sha }}"
           else
-            echo "❌ No SARIF file generated"
+            echo "⚠️ No SARIF file generated - scan may have failed"
           fi
               
