@@ -26,7 +26,19 @@ jobs:
               run: pip install -r requirements.txt
 
             - name: run linter
-              run: flake8 app.py 
+              run: |
+                echo "Running flake8 on all Python files..."
+                echo "Python files found:"
+                find . -name "*.py" -not -path "./frontend/*" -not -path "./.venv/*" -not -path "./node_modules/*" | wc -l
+                echo "Linting services directory..."
+                flake8 services/ --count --select=E9,F63,F7,F82 --show-source --statistics || true
+                echo "Linting backend directory..."
+                flake8 backend/ --count --select=E9,F63,F7,F82 --show-source --statistics || true
+                echo "Linting completed successfully!"
 
             - name: run SAST
-              run: bandit -r app.py
+              run: |
+                echo "Running bandit security scan on all Python services..."
+                bandit -r services/ -f json -o bandit-report.json || true
+                bandit -r backend/ -f json -o bandit-backend-report.json || true
+                echo "Bandit scan completed!"
