@@ -1,4 +1,4 @@
-FROM node:18-alpine AS base
+FROM node:20-alpine AS base
 
 # Install dependencies only when needed
 FROM base AS deps
@@ -22,12 +22,7 @@ COPY . .
 # Increase memory limit for Next.js 16 build
 ENV NODE_OPTIONS="--max-old-space-size=4096"
 
-# Debug build environment
-RUN echo "Node version:" && node --version
-RUN echo "NPM version:" && npm --version
-RUN echo "Memory available:" && free -h
-RUN echo "Disk space:" && df -h
-
+# Build the application
 RUN npm run build
 
 # Production image, copy all the files and run next
