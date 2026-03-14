@@ -15,25 +15,47 @@ jobs:
           - chatbot-service
           - eligibility-service
           - notification-service
+      fail-fast: false
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Login to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           username: ${{ vars.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      
+      - name: Set up Trivy
+        uses: aquasecurity/setup-trivy@v0.2.2
+        with:
+          trivy-version: latest
       
       - name: Scan ${{ matrix.service }} Image
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: ${{ vars.DOCKERHUB_USER }}/yojanamitra-${{ matrix.service }}:${{ github.sha }}
-          severity: CRITICAL,HIGH
+          severity: CRITICAL,HIGH,MEDIUM
           exit-code: '0'
           format: 'sarif'
           output: 'trivy-results-${{ matrix.service }}.sarif'
+          scan-type: 'image'
+          scan-ref: '.'
+      
+      - name: Display Trivy Results Summary
+        run: |
+          echo "=== Trivy Scan Results for ${{ matrix.service }} ==="
+          if [ -f 'trivy-results-${{ matrix.service }}.sarif' ]; then
+            echo "SARIF file generated successfully"
+            echo "File size: $(wc -c < trivy-results-${{ matrix.service }}.sarif) bytes"
+          else
+            echo "No SARIF file generated"
+          fi
       
       - name: Upload Trivy Scan Results to GitHub Security Tab
         uses: github/codeql-action/upload-sarif@v4
-        if: always() && github.event_name != 'pull_request'
+        if: always() && github.event_name != 'pull_request' && hashFiles('trivy-results-${{ matrix.service }}.sarif') != ''
         with:
           sarif_file: 'trivy-results-${{ matrix.service }}.sarif'
+          category: 'container-scan'
               
