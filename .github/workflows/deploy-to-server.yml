@@ -47,79 +47,82 @@ jobs:
 
             # Create docker-compose.yml file
             echo "Creating docker-compose.yml file..."
-            cat > ~/devops/docker-compose.yml << 'EOF'
+            cat <<'EOF' | sed 's/^            //' > ~/devops/docker-compose.yml
             version: '3.8'
-            
-            services:
-            frontend:
-            image: ${DOCKERHUB_USER}/yojanamitra-frontend:${DOCKER_TAG}
-            ports:
-            - "3000:3000"
-            environment:
-            - NODE_ENV=production
-            - NEXT_PUBLIC_API_URL=http://localhost:8000
-            depends_on:
-            - api-gateway
-            
-            api-gateway:
-            image: ${DOCKERHUB_USER}/yojanamitra-api-gateway:${DOCKER_TAG}
-            ports:
-            - "8000:8000"
-            environment:
-            - DATABASE_URL=postgresql://postgres:password@postgres:5432/yojanamitra
-            - JWT_SECRET=your-jwt-secret-key
-            depends_on:
-            - postgres
-            
-            postgres:
-            image: postgres:15
-            environment:
-            - POSTGRES_DB=yojanamitra
-            - POSTGRES_USER=postgres
-            - POSTGRES_PASSWORD=password
-            volumes:
-            - postgres_data:/var/lib/postgresql/data
-            ports:
-            - "5432:5432"
-            
-            scheme-service:
-            image: ${DOCKERHUB_USER}/yojanamitra-scheme-service:${DOCKER_TAG}
-            environment:
-            - DATABASE_URL=postgresql://postgres:password@postgres:5432/yojanamitra
-            depends_on:
-            - postgres
-            
-            user-service:
-            image: ${DOCKERHUB_USER}/yojanamitra-user-service:${DOCKER_TAG}
-            environment:
-            - DATABASE_URL=postgresql://postgres:password@postgres:5432/yojanamitra
-            depends_on:
-            - postgres
-            
-            chatbot-service:
-            image: ${DOCKERHUB_USER}/yojanamitra-chatbot-service:${DOCKER_TAG}
-            environment:
-            - DATABASE_URL=postgresql://postgres:password@postgres:5432/yojanamitra
-            depends_on:
-            - postgres
-            
-            eligibility-service:
-            image: ${DOCKERHUB_USER}/yojanamitra-eligibility-service:${DOCKER_TAG}
-            environment:
-            - DATABASE_URL=postgresql://postgres:password@postgres:5432/yojanamitra
-            depends_on:
-            - postgres
-            
-            notification-service:
-            image: ${DOCKERHUB_USER}/yojanamitra-notification-service:${DOCKER_TAG}
-            environment:
-            - DATABASE_URL=postgresql://postgres:password@postgres:5432/yojanamitra
-            depends_on:
-            - postgres
-            
-            volumes:
-            postgres_data:
-            EOF
-        
 
+            services:
+              frontend:
+                image: ${DOCKERHUB_USER}/yojanamitra-frontend:${DOCKER_TAG}
+                ports:
+                  - "3000:3000"
+                environment:
+                  - NODE_ENV=production
+                  - NEXT_PUBLIC_API_URL=http://localhost:8000
+                depends_on:
+                  - api-gateway
+
+              api-gateway:
+                image: ${DOCKERHUB_USER}/yojanamitra-api-gateway:${DOCKER_TAG}
+                ports:
+                  - "8000:8000"
+                environment:
+                  - DATABASE_URL=postgresql://postgres:password@postgres:5432/yojanamitra
+                  - JWT_SECRET=your-jwt-secret-key
+                depends_on:
+                  - postgres
+
+              postgres:
+                image: postgres:15
+                environment:
+                  - POSTGRES_DB=yojanamitra
+                  - POSTGRES_USER=postgres
+                  - POSTGRES_PASSWORD=password
+                volumes:
+                  - postgres_data:/var/lib/postgresql/data
+                ports:
+                  - "5432:5432"
+
+              scheme-service:
+                image: ${DOCKERHUB_USER}/yojanamitra-scheme-service:${DOCKER_TAG}
+                environment:
+                  - DATABASE_URL=postgresql://postgres:password@postgres:5432/yojanamitra
+                depends_on:
+                  - postgres
+
+              user-service:
+                image: ${DOCKERHUB_USER}/yojanamitra-user-service:${DOCKER_TAG}
+                environment:
+                  - DATABASE_URL=postgresql://postgres:password@postgres:5432/yojanamitra
+                depends_on:
+                  - postgres
+
+              chatbot-service:
+                image: ${DOCKERHUB_USER}/yojanamitra-chatbot-service:${DOCKER_TAG}
+                environment:
+                  - DATABASE_URL=postgresql://postgres:password@postgres:5432/yojanamitra
+                depends_on:
+                  - postgres
+
+              eligibility-service:
+                image: ${DOCKERHUB_USER}/yojanamitra-eligibility-service:${DOCKER_TAG}
+                environment:
+                  - DATABASE_URL=postgresql://postgres:password@postgres:5432/yojanamitra
+                depends_on:
+                  - postgres
+
+              notification-service:
+                image: ${DOCKERHUB_USER}/yojanamitra-notification-service:${DOCKER_TAG}
+                environment:
+                  - DATABASE_URL=postgresql://postgres:password@postgres:5432/yojanamitra
+                depends_on:
+                  - postgres
+
+            volumes:
+              postgres_data:
+            EOF
+
+            cd ~/devops
+            docker compose pull
+            docker compose up -d --remove-orphans
+            docker compose ps
             
