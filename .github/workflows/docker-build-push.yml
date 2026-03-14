@@ -15,6 +15,7 @@ jobs:
               - chatbot-service
               - eligibility-service
               - notification-service
+          fail-fast: false
 
         steps:
             - name: Code Checkout
@@ -39,6 +40,7 @@ jobs:
                 tags: |
                     ${{ vars.DOCKERHUB_USER }}/yojanamitra-${{ matrix.service }}:${{ github.sha }}
                     ${{ vars.DOCKERHUB_USER }}/yojanamitra-${{ matrix.service }}:latest
+              continue-on-error: true
 
     build-frontend:
         runs-on: ubuntu-latest
@@ -79,3 +81,4 @@ jobs:
                 tags: |
                     ${{ vars.DOCKERHUB_USER }}/yojanamitra-frontend:${{ github.sha }}
                     ${{ vars.DOCKERHUB_USER }}/yojanamitra-frontend:latest
+              continue-on-error: true
