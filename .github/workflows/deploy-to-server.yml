@@ -28,6 +28,11 @@ jobs:
                  sudo apt-get update && sudo apt-get install docker.io docker-compose-v2 -y
                  sudo usermod -aG docker $USER
                  mkdir -p devops
+                 # Remove existing docker-compose.yml if it's a directory
+                 if [ -d ~/devops/docker-compose.yml ]; then
+                   echo "Removing existing docker-compose.yml directory"
+                   rm -rf ~/devops/docker-compose.yml
+                 fi
 
             - name: Copy the docker-compose file
               uses: appleboy/scp-action@v1
