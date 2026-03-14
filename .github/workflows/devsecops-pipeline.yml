@@ -2,7 +2,7 @@ name: DevSecOps End to End Pipeline
 
 on:
       push:
-            branches: [main]
+            branches: [master]
 
 jobs:
       code-quality:
