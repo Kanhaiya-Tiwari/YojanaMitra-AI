@@ -33,6 +33,29 @@ def init_db(app, settings: ServiceSettings) -> None:  # FastAPI app type is runt
     Base.metadata.create_all(engine)
     app.state.engine = engine
     app.state.session_factory = make_session_factory(engine)
+    
+    # Auto-seed database if empty
+    from pathlib import Path
+    from .seed import seed_from_file
+    from .models import Scheme
+    
+    session_factory = app.state.session_factory
+    session = session_factory()
+    try:
+        existing_count = session.query(Scheme).count()
+        if existing_count == 0:
+            print("Database is empty, seeding default schemes...")
+            seed_path = Path(__file__).resolve().parent.parent / "data" / "comprehensive_schemes_100.json"
+            result = seed_from_file(session, seed_path)
+            session.commit()
+            print(f"Seeded {result['total']} schemes ({result['created']} created, {result['updated']} updated)")
+        else:
+            print(f"Database already has {existing_count} schemes, skipping seed")
+    except Exception as e:
+        print(f"Error during seeding: {e}")
+        session.rollback()
+    finally:
+        session.close()
 
 
 def get_session(request: Request) -> Generator[Session, None, None]:

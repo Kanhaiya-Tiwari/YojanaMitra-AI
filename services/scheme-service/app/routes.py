@@ -23,6 +23,22 @@ def healthz() -> dict:
     return {"ok": True}
 
 
+@router.get("/debug/schemes")
+def debug_schemes(session: Session = Depends(get_session)) -> dict:
+    """Debug endpoint to check database state"""
+    try:
+        total_schemes = session.query(Scheme).count()
+        schemes = session.query(Scheme).limit(5).all()
+        scheme_list = [{"id": str(s.id), "name": s.name} for s in schemes]
+        return {
+            "total_schemes": total_schemes,
+            "sample_schemes": scheme_list,
+            "database_url": "configured"  # Don't expose actual URL
+        }
+    except Exception as e:
+        return {"error": str(e), "total_schemes": 0}
+
+
 @router.get("/schemes", response_model=list[SchemeOut])
 def list_schemes(
     q: str | None = Query(default=None, description="Search by scheme name/description"),
