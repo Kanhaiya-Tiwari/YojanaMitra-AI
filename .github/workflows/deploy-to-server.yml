@@ -60,17 +60,6 @@ jobs:
                   - NEXT_PUBLIC_API_URL=http://localhost:8000
                 depends_on:
                   - api-gateway
-
-              api-gateway:
-                image: ${DOCKERHUB_USER}/yojanamitra-api-gateway:${DOCKER_TAG}
-                ports:
-                  - "8000:8000"
-                environment:
-                  - DATABASE_URL=postgresql://postgres:password@postgres:5432/yojanamitra
-                  - JWT_SECRET=your-jwt-secret-key
-                depends_on:
-                  - postgres
-
               postgres:
                 image: postgres:15
                 environment:
@@ -116,6 +105,35 @@ jobs:
                   - DATABASE_URL=postgresql://postgres:password@postgres:5432/yojanamitra
                 depends_on:
                   - postgres
+
+              api-gateway:
+                image: ${DOCKERHUB_USER}/yojanamitra-api-gateway:${DOCKER_TAG}
+                ports:
+                  - "8000:8000"
+                environment:
+                  - DATABASE_URL=postgresql://postgres:password@postgres:5432/yojanamitra
+                  - JWT_SECRET=your-jwt-secret-key
+                  - SCHEME_SERVICE_URL=http://scheme-service:8002
+                  - USER_SERVICE_URL=http://user-service:8000
+                  - ELIGIBILITY_SERVICE_URL=http://eligibility-service:8000
+                  - CHATBOT_SERVICE_URL=http://chatbot-service:8000
+                depends_on:
+                  - postgres
+                  - scheme-service
+                  - user-service
+                  - eligibility-service
+                  - chatbot-service
+                  - notification-service
+
+              frontend:
+                image: ${DOCKERHUB_USER}/yojanamitra-frontend:${DOCKER_TAG}
+                ports:
+                  - "3000:3000"
+                environment:
+                  - NODE_ENV=production
+                  - NEXT_PUBLIC_API_URL=http://localhost:8000
+                depends_on:
+                  - api-gateway
 
               nginx:
                 image: nginx:alpine
