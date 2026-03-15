@@ -137,6 +137,16 @@ def create_app() -> FastAPI:
             method="GET",
         )
 
+    @app.get("/api/v1/debug/schemes")
+    @limiter.limit("60/minute")
+    async def debug_schemes(request: Request):
+        return await proxy_request(
+            request=request,
+            upstream_base_url=scheme_service_url(),
+            upstream_path="/debug/schemes",
+            method="GET",
+        )
+
     # Eligibility
     @app.post("/api/v1/eligibility/evaluate")
     @limiter.limit("60/minute")
