@@ -63,99 +63,99 @@ jobs:
                  # Create docker-compose.yml file directly
                  echo "Creating docker-compose.yml file directly..."
                  cat > ~/devops/docker-compose.yml << 'EOF'
-version: '3.8'
+                 version: '3.8'
 
-services:
-  postgres:
-    image: postgres:15
-    environment:
-      - POSTGRES_DB=yojanamitra
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=password
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
+                 services:
+                   postgres:
+                     image: postgres:15
+                     environment:
+                       - POSTGRES_DB=yojanamitra
+                       - POSTGRES_USER=postgres
+                       - POSTGRES_PASSWORD=password
+                     volumes:
+                       - postgres_data:/var/lib/postgresql/data
+                     ports:
+                       - "5432:5432"
 
-  scheme-service:
-    image: ${DOCKERHUB_USER}/yojanamitra-scheme-service:${DOCKER_TAG}
-    environment:
-      - DATABASE_URL=postgresql://postgres:password@postgres:5432/yojanamitra
-    depends_on:
-      - postgres
+                   scheme-service:
+                     image: ${DOCKERHUB_USER}/yojanamitra-scheme-service:${DOCKER_TAG}
+                     environment:
+                       - DATABASE_URL=postgresql://postgres:password@postgres:5432/yojanamitra
+                     depends_on:
+                       - postgres
 
-  user-service:
-    image: ${DOCKERHUB_USER}/yojanamitra-user-service:${DOCKER_TAG}
-    environment:
-      - DATABASE_URL=postgresql://postgres:password@postgres:5432/yojanamitra
-    depends_on:
-      - postgres
+                   user-service:
+                     image: ${DOCKERHUB_USER}/yojanamitra-user-service:${DOCKER_TAG}
+                     environment:
+                       - DATABASE_URL=postgresql://postgres:password@postgres:5432/yojanamitra
+                     depends_on:
+                       - postgres
 
-  chatbot-service:
-    image: ${DOCKERHUB_USER}/yojanamitra-chatbot-service:${DOCKER_TAG}
-    environment:
-      - DATABASE_URL=postgresql://postgres:password@postgres:5432/yojanamitra
-    depends_on:
-      - postgres
+                   chatbot-service:
+                     image: ${DOCKERHUB_USER}/yojanamitra-chatbot-service:${DOCKER_TAG}
+                     environment:
+                       - DATABASE_URL=postgresql://postgres:password@postgres:5432/yojanamitra
+                     depends_on:
+                       - postgres
 
-  eligibility-service:
-    image: ${DOCKERHUB_USER}/yojanamitra-eligibility-service:${DOCKER_TAG}
-    environment:
-      - DATABASE_URL=postgresql://postgres:password@postgres:5432/yojanamitra
-    depends_on:
-      - postgres
+                   eligibility-service:
+                     image: ${DOCKERHUB_USER}/yojanamitra-eligibility-service:${DOCKER_TAG}
+                     environment:
+                       - DATABASE_URL=postgresql://postgres:password@postgres:5432/yojanamitra
+                     depends_on:
+                       - postgres
 
-  notification-service:
-    image: ${DOCKERHUB_USER}/yojanamitra-notification-service:${DOCKER_TAG}
-    environment:
-      - DATABASE_URL=postgresql://postgres:password@postgres:5432/yojanamitra
-    depends_on:
-      - postgres
+                   notification-service:
+                     image: ${DOCKERHUB_USER}/yojanamitra-notification-service:${DOCKER_TAG}
+                     environment:
+                       - DATABASE_URL=postgresql://postgres:password@postgres:5432/yojanamitra
+                     depends_on:
+                       - postgres
 
-  api-gateway:
-    image: ${DOCKERHUB_USER}/yojanamitra-api-gateway:${DOCKER_TAG}
-    ports:
-      - "8000:8000"
-    environment:
-      - DATABASE_URL=postgresql://postgres:password@postgres:5432/yojanamitra
-      - JWT_SECRET=your-jwt-secret-key
-      - SCHEME_SERVICE_URL=http://scheme-service:8002
-      - USER_SERVICE_URL=http://user-service:8000
-      - ELIGIBILITY_SERVICE_URL=http://eligibility-service:8000
-      - CHATBOT_SERVICE_URL=http://chatbot-service:8000
-    depends_on:
-      - postgres
-      - scheme-service
-      - user-service
-      - eligibility-service
-      - chatbot-service
-      - notification-service
+                   api-gateway:
+                     image: ${DOCKERHUB_USER}/yojanamitra-api-gateway:${DOCKER_TAG}
+                     ports:
+                       - "8000:8000"
+                     environment:
+                       - DATABASE_URL=postgresql://postgres:password@postgres:5432/yojanamitra
+                       - JWT_SECRET=your-jwt-secret-key
+                       - SCHEME_SERVICE_URL=http://scheme-service:8002
+                       - USER_SERVICE_URL=http://user-service:8000
+                       - ELIGIBILITY_SERVICE_URL=http://eligibility-service:8000
+                       - CHATBOT_SERVICE_URL=http://chatbot-service:8000
+                     depends_on:
+                       - postgres
+                       - scheme-service
+                       - user-service
+                       - eligibility-service
+                       - chatbot-service
+                       - notification-service
 
-  web-frontend:
-    image: ${DOCKERHUB_USER}/yojanamitra-frontend:${DOCKER_TAG}
-    ports:
-      - "3000:3000"
-    environment:
-      - NODE_ENV=production
-      - NEXT_PUBLIC_API_URL=http://localhost:8000
-    depends_on:
-      - api-gateway
+                   web-frontend:
+                     image: ${DOCKERHUB_USER}/yojanamitra-frontend:${DOCKER_TAG}
+                     ports:
+                       - "3000:3000"
+                     environment:
+                       - NODE_ENV=production
+                       - NEXT_PUBLIC_API_URL=http://localhost:8000
+                     depends_on:
+                       - api-gateway
 
-  nginx:
-    image: nginx:alpine
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./nginx/ssl:/etc/nginx/ssl
-    depends_on:
-      - web-frontend
-      - api-gateway
+                   nginx:
+                     image: nginx:alpine
+                     ports:
+                       - "80:80"
+                       - "443:443"
+                     volumes:
+                       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+                       - ./nginx/ssl:/etc/nginx/ssl
+                     depends_on:
+                       - web-frontend
+                       - api-gateway
 
-volumes:
-  postgres_data: {}
-EOF
+                 volumes:
+                   postgres_data: {}
+                 EOF
 
                  # Verify and deploy
                  if [ -f ~/devops/docker-compose.yml ]; then
