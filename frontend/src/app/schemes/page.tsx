@@ -26,6 +26,7 @@ export default function SchemesPage() {
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [schemes, setSchemes] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
+  const [debugInfo, setDebugInfo] = useState<any>(null);
 
   // Load schemes from API on component mount
   useEffect(() => {
@@ -42,6 +43,17 @@ export default function SchemesPage() {
     };
     loadSchemes();
   }, []);
+
+  // Debug function to check backend
+  const checkDebugInfo = async () => {
+    try {
+      const debug = await debugSchemes();
+      setDebugInfo(debug);
+    } catch (error) {
+      console.error('Debug error:', error);
+      setDebugInfo({ error: error.message });
+    }
+  };
 
   const filtered = useMemo(() => {
     return schemes.filter((s: any) => {
@@ -83,6 +95,34 @@ export default function SchemesPage() {
               ? `${schemes.length}+ योजनाएं उपलब्ध • खोजें और जानें`
               : `${schemes.length}+ schemes available • Search, filter, and discover`}
           </p>
+
+          {/* Debug Info */}
+          {debugInfo && (
+            <div className="mb-6 p-4 bg-blue-50 dark:bg-gray-800 rounded-lg border border-blue-200 dark:border-gray-700">
+              <div className="flex items-center gap-2 mb-2">
+                <h3 className="text-lg font-bold text-blue-800 dark:text-blue-200">🔍 Debug Info</h3>
+                <button 
+                  onClick={() => setDebugInfo(null)}
+                  className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-200"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+              {debugInfo.error ? (
+                <div className="text-red-600 dark:text-red-400">
+                  <strong>Error:</strong> {debugInfo.error}
+                </div>
+              ) : (
+                <div className="text-sm text-gray-700 dark:text-gray-300">
+                  <div><strong>Total Schemes:</strong> {debugInfo.total_schemes}</div>
+                  <div><strong>Sample:</strong></div>
+                  <pre className="bg-gray-100 dark:bg-gray-900 p-2 rounded mt-2 text-xs overflow-auto">
+                    {JSON.stringify(debugInfo.sample_schemes, null, 2)}
+                  </pre>
+                </div>
+              )}
+            </div>
+          )}
 
           {/* Search bar */}
           <div className="flex gap-3">
@@ -163,6 +203,15 @@ export default function SchemesPage() {
                   {hi ? 'सभी फ़िल्टर हटाएं' : 'Clear all filters'}
                 </button>
               )}
+
+              {/* Debug Button */}
+              <button
+                onClick={checkDebugInfo}
+                className="mt-3 flex items-center gap-1.5 text-sm text-blue-500 hover:text-blue-600 transition-colors"
+              >
+                <X size={14} />
+                {hi ? 'डिबग जानकारी' : 'Debug Schemes'}
+              </button>
             </div>
           )}
         </div>

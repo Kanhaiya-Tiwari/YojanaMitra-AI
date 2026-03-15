@@ -27,3 +27,9 @@ export async function getScheme(id: string) {
   return res.json();
 }
 
+export async function debugSchemes() {
+  const res = await fetch(`${API_BASE}/api/v1/debug/schemes`);
+  if (!res.ok) throw new Error(`Debug failed: ${res.status}`);
+  return res.json();
+}
+
