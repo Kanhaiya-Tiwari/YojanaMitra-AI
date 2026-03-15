@@ -26,22 +26,10 @@ jobs:
                  echo "Installing required packages & folders"
                  sudo apt-get update && sudo apt-get install docker.io docker-compose-v2 -y
                  sudo usermod -aG docker $USER
-                 mkdir -p devops
-                 # Remove existing docker-compose.yml if it's a directory
-                 if [ -d ~/devops/docker-compose.yml ]; then
-                   echo "Removing existing docker-compose.yml directory"
-                   rm -rf ~/devops/docker-compose.yml
-                 fi
+                 mkdir -p ~/devops
+                 # Remove existing docker-compose.yml (file or directory) before writing a new one
+                 rm -rf ~/devops/docker-compose.yml
 
-            - name: Copy the docker-compose file
-              uses: appleboy/scp-action@v1
-              with:
-                host: ${{ secrets.EC2_SSH_HOST }}
-                username: ${{ secrets.EC2_SSH_USER }}
-                key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
-                source: docker-compose.prod.yml
-                target: ~/devops/docker-compose.yml
-                
             - name: SSH to Prod server & run the app
               uses: appleboy/ssh-action@v1.0.3
               with:
