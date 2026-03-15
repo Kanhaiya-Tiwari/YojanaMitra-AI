@@ -5,7 +5,7 @@ import { Search, Filter, X, SlidersHorizontal } from 'lucide-react';
 import SchemeCard from '@/components/SchemeCard';
 import { CATEGORIES, INDIAN_STATES } from '@/lib/schemes-data';
 import { useTheme } from '@/components/ThemeProvider';
-import { listSchemes } from '@/lib/api';
+import { listSchemes, debugSchemes, type DebugResponse } from '@/lib/api';
 
 const INCOME_RANGES = [
   { value: 'any', label: 'Any Income' },
@@ -51,7 +51,8 @@ export default function SchemesPage() {
       setDebugInfo(debug);
     } catch (error) {
       console.error('Debug error:', error);
-      setDebugInfo({ error: error.message });
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+      setDebugInfo({ error: errorMessage });
     }
   };
 
