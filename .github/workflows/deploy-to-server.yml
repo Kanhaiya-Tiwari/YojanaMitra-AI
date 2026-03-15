@@ -30,6 +30,15 @@ jobs:
                  # Remove existing docker-compose.yml (file or directory) before writing a new one
                  rm -rf ~/devops/docker-compose.yml
 
+            - name: Copy docker-compose.prod.yml to server
+              uses: appleboy/scp-action@v0.1.4
+              with:
+                host: ${{ secrets.EC2_SSH_HOST }}
+                username: ${{ secrets.EC2_SSH_USER }}
+                key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+                source: "docker-compose.prod.yml"
+                target: "~/devops/"
+
             - name: SSH to Prod server & run the app
               uses: appleboy/ssh-action@v1.0.3
               with:
@@ -49,7 +58,7 @@ jobs:
                  rm -rf ~/devops/docker-compose.yml.tmp
                  
                  # Copy docker-compose.prod.yml from repo
-                 cp docker-compose.prod.yml ~/devops/docker-compose.yml
+                 mv ~/devops/docker-compose.prod.yml ~/devops/docker-compose.yml
                  
                  # Remove nginx service as config files are missing
                  sed -i '/# Nginx reverse proxy for production/,/^volumes:/{ /# Nginx reverse proxy for production/d; /^volumes:/!d; }' ~/devops/docker-compose.yml
