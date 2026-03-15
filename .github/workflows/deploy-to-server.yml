@@ -154,9 +154,9 @@ services:
       - api-gateway
 
 volumes:
-  postgres_data:
+  postgres_data: {}
 EOF
-                 
+
                  # Verify and deploy
                  if [ -f ~/devops/docker-compose.yml ]; then
                    echo "✅ docker-compose.yml file created successfully"
