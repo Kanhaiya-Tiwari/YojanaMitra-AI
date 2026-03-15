@@ -18,7 +18,7 @@ def user_service_url() -> str:
 
 
 def scheme_service_url() -> str:
-    return service_url("SCHEME_SERVICE_URL", "http://scheme-service:8000")
+    return service_url("SCHEME_SERVICE_URL", "http://scheme-service:8002")
 
 
 def eligibility_service_url() -> str:
