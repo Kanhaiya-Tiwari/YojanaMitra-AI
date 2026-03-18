@@ -267,7 +267,6 @@ For production deployment:
    ```bash
    make health
    make prod-logs
-   ```
 
 ## 🤝 Contributing
 
