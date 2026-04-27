@@ -10,7 +10,6 @@ YojanaMitra AI is a production-style, microservice-based system that:
 - Guides users on documents + step-by-step application process
 - Supports integrations like WhatsApp bot and notifications
 - Features beautiful animated UI with Hindi/English support
-
 ## 🏗️ Microservices Architecture
 
 ### Services Overview
