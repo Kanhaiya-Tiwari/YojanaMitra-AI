@@ -1,5 +1,4 @@
 # YojanaMitra AI
-
 **Core question:** "Which government schemes am I eligible for and how can I apply?"
 
 YojanaMitra AI is a production-style, microservice-based system that:
@@ -287,5 +286,4 @@ For support and questions:
 - Review the architecture documentation in `docs/`
 
 ---
-
 **YojanaMitra AI** - Making government schemes accessible to every Indian citizen 🇮🇳
